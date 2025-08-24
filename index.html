@@ -324,6 +324,36 @@
     ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(180deg, var(--secondary), var(--primary));
     }
+    
+    .voice-indicator {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00ffff;
+      font-size: 24px;
+      z-index: 1001;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border: 2px solid #00ffff;
+    }
+    
+    .voice-indicator.active {
+      opacity: 1;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+    }
   </style>
 </head>
 <body class="bg-gray-950">
@@ -331,7 +361,7 @@
   <nav class="navbar py-4 px-8">
     <div class="flex justify-between items-center max-w-7xl mx-auto">
       <a href="#hero" class="text-2xl font-bold gradient-text montserrat">Neuronet</a>
-      <div class="hidden md:flex space-x-10">
+      <div class="hidden md:flex items-center space-x-10">
         <a href="#about-us" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">About Us</a>
         <a href="#innovations" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Innovations</a>
         <a href="#portfolio" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Portfolio</a>
@@ -341,6 +371,15 @@
         <a href="#tech-solutions" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Solutions</a>
         <a href="#documentation" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Documentation</a>
         <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Contact</a>
+      </div>
+      <!-- Language Selector -->
+      <div class="flex items-center">
+        <label for="lang-select" class="sr-only">Choose Language:</label>
+        <select id="lang-select" class="bg-gray-800 text-white border border-cyan-500 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
       </div>
     </div>
   </nav>
@@ -598,6 +637,9 @@
       <button id="close-modal" class="mt-8 cta-button text-lg montserrat">Close</button>
     </div>
   </div>
+  <div id="voice-indicator" class="voice-indicator">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </div>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('background-canvas');
@@ -610,21 +652,15 @@
       const createParticles = (particleCount, size, color) => {
         const particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
         for (let i = 0; i < particleCount * 3; i += 3) {
           positions[i] = (Math.random() - 0.5) * 1000;
           positions[i + 1] = (Math.random() - 0.5) * 1000;
           positions[i + 2] = Math.random() * 1000;
-          const c = new THREE.Color(color);
-          colors[i] = c.r;
-          colors[i + 1] = c.g;
-          colors[i + 2] = c.b;
         }
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         const particleMaterial = new THREE.PointsMaterial({ 
           size, 
-          vertexColors: true, 
+          color: new THREE.Color(color),
           transparent: true, 
           opacity: 0.8,
           blending: THREE.AdditiveBlending
@@ -640,15 +676,10 @@
       scene.add(slowParticles);
       
       camera.position.z = 5;
-      const clock = new THREE.Clock();
       
       function animate() {
         requestAnimationFrame(animate);
-        const delta = clock.getDelta();
         const scrollY = window.scrollY;
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollProgress = totalHeight === 0 ? 0 : scrollY / totalHeight;
-        const scrollSpeed = 4000;
         
         const animateParticles = (particles, baseSpeed) => {
           const particlePositions = particles.geometry.attributes.position.array;
@@ -667,23 +698,149 @@
       }
       
       const handleResize = () => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        camera.aspect = width / height;
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
+        renderer.setSize(window.innerWidth, window.innerHeight);
       };
       
-      const resizeObserver = new ResizeObserver(handleResize);
-      resizeObserver.observe(document.body);
+      window.addEventListener('resize', handleResize);
       
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+            speakSectionInfo(targetId.substring(1));
+          }
         });
       });
       
+      // --- NEW MULTILINGUAL & SPEECH LOGIC ---
+
+      const voiceIndicator = document.getElementById('voice-indicator');
+      const langSelector = document.getElementById('lang-select');
+      let currentLanguage = 'en';
+      let voices = [];
+
+      const translations = {
+        'en': {
+          'hero': { title: 'Welcome to Neuronet', description: 'Connecting Minds, Building the Future. At the forefront of AI and technology, delivering cutting-edge solutions that transform industries and inspire innovation.'},
+          'about-us': { title: 'About Neuronet', description: 'At Neuronet, we are more than just a technology company; we are a hub of innovation and a collective of forward-thinking individuals specializing in AI, cloud computing, and cybersecurity.'},
+          'innovations': { title: 'Neuronet Innovations and Insights', description: 'Explore our insights on critical technology topics, from backend architecture and cybersecurity to the latest in cloud computing and DevOps.'},
+          'portfolio': { title: 'Neuronet Portfolio', description: 'A selection of our latest projects and design concepts, including NeuroVerse for vehicular autonomy and eArbor for logistics compliance.'},
+          'case-studies': { title: 'Our Case Studies', description: 'Detailed insights into how we tackle complex challenges, like building a real-time financial analytics platform and a personalized e-commerce experience.'},
+          'podcasts': { title: 'Neuronet Podcasts', description: 'Listen to our experts discuss the latest trends in technology, including the future of AI in healthcare, blockchain, and the ethics of artificial intelligence.'},
+          'careers': { title: 'Careers at Neuronet', description: 'We are a place for ambitious professionals to grow. Explore opportunities for AI engineers, cloud specialists, software developers, and more.'},
+          'tech-solutions': { title: 'Our Tech Solutions', description: 'Discover practical project ideas and solutions we specialize in, such as REST APIs, smart contract DApps, offline-first mobile apps, and IoT monitors.'},
+          'documentation': { title: 'Documentation', description: 'Access our comprehensive documentation for a deep dive into our projects, frameworks, and technologies.'},
+          'contact': { title: 'Get in Touch', description: 'Ready to transform your business or have a question about our work? Fill out the form to connect with us.'}
+        },
+        'es': {
+          'hero': { title: 'Bienvenido a Neuronet', description: 'Conectando Mentes, Construyendo el Futuro. A la vanguardia de la IA y la tecnología, ofreciendo soluciones de punta que transforman industrias e inspiran innovación.'},
+          'about-us': { title: 'Sobre Neuronet', description: 'En Neuronet, somos más que una empresa de tecnología; somos un centro de innovación y un colectivo de individuos con visión de futuro especializados en IA, computación en la nube y ciberseguridad.'},
+          'innovations': { title: 'Innovaciones y Perspectivas de Neuronet', description: 'Explore nuestras perspectivas sobre temas tecnológicos críticos, desde la arquitectura de backend y la ciberseguridad hasta lo último en computación en la nube y DevOps.'},
+          'portfolio': { title: 'Portafolio de Neuronet', description: 'Una selección de nuestros últimos proyectos y conceptos de diseño, incluyendo NeuroVerse para la autonomía vehicular y eArbor para el cumplimiento de normativas en logística.'},
+          'case-studies': { title: 'Nuestros Casos de Estudio', description: 'Información detallada sobre cómo abordamos desafíos complejos, como la construcción de una plataforma de análisis financiero en tiempo real y una experiencia de comercio electrónico personalizada.'},
+          'podcasts': { title: 'Podcasts de Neuronet', description: 'Escuche a nuestros expertos discutir las últimas tendencias en tecnología, incluyendo el futuro de la IA en la atención médica, blockchain y la ética de la inteligencia artificial.'},
+          'careers': { title: 'Carreras en Neuronet', description: 'Somos un lugar para que profesionales ambiciosos crezcan. Explore oportunidades para ingenieros de IA, especialistas en la nube, desarrolladores de software y más.'},
+          'tech-solutions': { title: 'Nuestras Soluciones Tecnológicas', description: 'Descubra ideas de proyectos prácticos y soluciones en las que nos especializamos, como APIs REST, DApps de contratos inteligentes, aplicaciones móviles que funcionan sin conexión y monitores de IoT.'},
+          'documentation': { title: 'Documentación', description: 'Acceda a nuestra completa documentación para una inmersión profunda en nuestros proyectos, marcos de trabajo y tecnologías.'},
+          'contact': { title: 'Póngase en Contacto', description: '¿Listo para transformar su negocio o tiene alguna pregunta sobre nuestro trabajo? Rellene el formulario para conectarse con nosotros.'}
+        },
+        'fr': {
+          'hero': { title: 'Bienvenue chez Neuronet', description: 'Connecter les Esprits, Construire l\'Avenir. À la pointe de l\'IA et de la technologie, nous fournissons des solutions de pointe qui transforment les industries et inspirent l\'innovation.'},
+          'about-us': { title: 'À propos de Neuronet', description: 'Chez Neuronet, nous sommes plus qu\'une simple entreprise technologique; nous sommes un pôle d\'innovation et un collectif d\'individus avant-gardistes spécialisés en IA, cloud computing et cybersécurité.'},
+          'innovations': { title: 'Innovations et Perspectives de Neuronet', description: 'Découvrez nos perspectives sur des sujets technologiques critiques, de l\'architecture backend et la cybersécurité aux dernières nouveautés en matière de cloud computing et de DevOps.'},
+          'portfolio': { title: 'Portfolio de Neuronet', description: 'Une sélection de nos derniers projets et concepts de design, y compris NeuroVerse pour l\'autonomie des véhicules et eArbor pour la conformité logistique.'},
+          'case-studies': { title: 'Nos Études de Cas', description: 'Des informations détaillées sur la manière dont nous abordons des défis complexes, comme la création d\'une plateforme d\'analyse financière en temps réel et une expérience de commerce électronique personnalisée.'},
+          'podcasts': { title: 'Podcasts de Neuronet', description: 'Écoutez nos experts discuter des dernières tendances en technologie, y compris l\'avenir de l\'IA dans les soins de santé, la blockchain et l\'éthique de l\'intelligence artificielle.'},
+          'careers': { title: 'Carrières chez Neuronet', description: 'Nous sommes un lieu où les professionnels ambitieux peuvent s\'épanouir. Découvrez des opportunités pour les ingénieurs en IA, les spécialistes du cloud, les développeurs de logiciels, et plus encore.'},
+          'tech-solutions': { title: 'Nos Solutions Technologiques', description: 'Découvrez des idées de projets pratiques et des solutions dans lesquelles nous nous spécialisons, telles que les API REST, les DApps de contrats intelligents, les applications mobiles hors ligne et les moniteurs IoT.'},
+          'documentation': { title: 'Documentation', description: 'Accédez à notre documentation complète pour une immersion approfondie dans nos projets, nos frameworks et nos technologies.'},
+          'contact': { title: 'Contactez-nous', description: 'Prêt à transformer votre entreprise ou vous avez une question sur notre travail? Remplissez le formulaire pour nous contacter.'}
+        }
+      };
+
+      function populateVoices() {
+        voices = window.speechSynthesis.getVoices();
+      }
+
+      function speakSectionInfo(sectionId) {
+        if (!window.speechSynthesis) {
+          console.warn('Speech synthesis not supported');
+          return;
+        }
+
+        const content = translations[currentLanguage]?.[sectionId] || translations['en'][sectionId];
+        if (!content) return;
+
+        const textToSpeak = `${content.title}. ${content.description}`;
+        
+        window.speechSynthesis.cancel();
+        voiceIndicator.classList.add('active');
+        
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.volume = 1;
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        const preferredVoice = voices.find(voice => voice.lang.startsWith(currentLanguage));
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        } else {
+            console.warn(`No voice found for language: ${currentLanguage}. Using default.`);
+        }
+        
+        utterance.onend = () => {
+          setTimeout(() => {
+            voiceIndicator.classList.remove('active');
+          }, 500);
+        };
+        
+        window.speechSynthesis.speak(utterance);
+      }
+      
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+        return rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2;
+      }
+      
+      let lastSpokenSection = null;
+
+      function announceCurrentSection() {
+        const sections = document.querySelectorAll('section[id], header[id]');
+        for (const section of sections) {
+            if (isInViewport(section)) {
+                const sectionId = section.getAttribute('id');
+                if (lastSpokenSection !== sectionId) {
+                    lastSpokenSection = sectionId;
+                    speakSectionInfo(sectionId);
+                }
+                return;
+            }
+        }
+      }
+
+      langSelector.addEventListener('change', (event) => {
+        currentLanguage = event.target.value;
+        // Re-announce the current section in the new language
+        lastSpokenSection = null; // Reset to allow re-announcement
+        announceCurrentSection();
+      });
+
+      // Initialize voices
+      populateVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = populateVoices;
+      }
+      
+      setTimeout(announceCurrentSection, 500);
+      window.addEventListener('scroll', announceCurrentSection, { passive: true });
+      
+      // --- FORM HANDLING & OTHER LOGIC ---
       const form = document.getElementById('contact-form');
       const emailInput = document.getElementById('email');
       const replyToEmailInput = document.getElementById('reply-to-email');
@@ -696,10 +853,9 @@
       
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formAction = form.getAttribute('action');
         const formData = new FormData(form);
         try {
-          const response = await fetch(formAction, {
+          const response = await fetch(form.action, {
             method: 'POST',
             body: formData,
             headers: { 'Accept': 'application/json' }
@@ -708,24 +864,16 @@
             form.reset();
             successModal.classList.add('active');
           } else {
-            const errorData = await response.json();
-            console.error('Form submission failed:', errorData);
             alert("Oops! There was a problem submitting your form.");
           }
         } catch (error) {
-          console.error('Error submitting form:', error);
-          alert("Oops! There was an unexpected error. Please try again later.");
+          alert("Oops! There was an unexpected error.");
         }
       });
       
-      closeModalButton.addEventListener('click', () => {
-        successModal.classList.remove('active');
-      });
-      
+      closeModalButton.addEventListener('click', () => successModal.classList.remove('active'));
       window.addEventListener('click', (e) => {
-        if (e.target === successModal) {
-          successModal.classList.remove('active');
-        }
+        if (e.target === successModal) successModal.classList.remove('active');
       });
       
       animate();

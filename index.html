@@ -1,843 +1,737 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neuronet - The Future of AI</title>
-    <!-- Use Tailwind CSS for a clean, modern, and responsive design -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load the Three.js library for 3D graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Use a modern, professional-looking font from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuronet - The Future of AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Space+Grotesk:wght@500;700&family=Montserrat:wght@400;600;800&family=Roboto+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SN7911MJ5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3SN7911MJ5');
+  </script>
+  <style>
+    :root {
+      --primary: #00ffff;
+      --primary-dark: #00cccc;
+      --secondary: #ff00ff;
+      --secondary-dark: #cc00cc;
+      --accent: #ffff00;
+      --accent-dark: #cccc00;
+      --bg-dark: #0a0a1a;
+      --bg-light: #1a1a2e;
+      --text-light: #e0e0e0;
+      --text-muted: #a0a0c0;
+    }
     
-    <!-- Google Analytics: Add this script to track user behavior -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-3SN7911MJ5'); // Replace G-XXXXXXXXXX with your Measurement ID
-    </script>
-    <!-- End Google Analytics -->
-
-    <style>
-        /* Global CSS for a dark, sci-fi theme with a professional touch */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0d0d1e;
-            color: #e0e0e0;
-            overflow-x: hidden;
-        }
-
-        /* The main canvas for our 3D background animation */
-        #background-canvas {
-            position: fixed; /* Use fixed position to keep it in the viewport */
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 1.0;
-        }
-        
-        /* Fixed navigation bar for easy access to sections */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background-color: rgba(13, 13, 30, 0.7);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        /*
-        Content container that scrolls over the 3D background.
-        Set to fully transparent so the background is always visible.
-        */
-        .content-container {
-            position: relative;
-            z-index: 10;
-            padding: 2rem 1rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            min-height: 100vh;
-            border-radius: 1.5rem;
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.05);
-            margin-top: 4rem;
-            margin-bottom: 2rem;
-            /* Make the background fully transparent to reveal the canvas */
-            background-color: rgba(0, 0, 0, 0); 
-        }
-
-        /* Frosted glass effect for the header and content sections */
-        .frosted-glass {
-            background-color: rgba(13, 13, 30, 0.6); /* Semi-transparent dark background */
-            backdrop-filter: blur(10px); /* Blur the content behind the element */
-            -webkit-backdrop-filter: blur(10px); /* For Safari support */
-        }
-        
-        /* Custom scrollbar for a sleek look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* --- CSS for the Spotlight/Shine Effect --- */
-        .card {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transform: skewX(-31deg);
-            z-index: -1;
-            transition: left 0.6s ease-in-out;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        /* Shine effect for the border */
-        .card:hover {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        
-        /* Professional button style for a Call to Action */
-        .cta-button {
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            border-radius: 9999px;
-            background: linear-gradient(90deg, #1e90ff, #00ffff);
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 6px 20px rgba(0, 255, 255, 0.6);
-            background: linear-gradient(90deg, #00ffff, #1e90ff);
-        }
-
-        /* Styling for form elements to match the theme */
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.75rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #e0e0e0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: border-color 0.3s, background-color 0.3s;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #00ffff;
-            background-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-        }
-
-        /* Simple modal for form success message */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.3s ease-in-out;
-            opacity: 0;
-        }
-        .modal-content {
-            background-color: #1a1a2e;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            border: 2px solid #00ffff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-            text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s ease-in-out;
-        }
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-    </style>
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: var(--bg-dark); 
+      color: var(--text-light); 
+      overflow-x: hidden; 
+      background-image: radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1), transparent 50%), 
+                       radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.1), transparent 50%);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+    }
+    
+    .montserrat { font-family: 'Montserrat', sans-serif; }
+    .inter { font-family: 'Inter', sans-serif; }
+    .roboto-mono { font-family: 'Roboto Mono', monospace; }
+    
+    #background-canvas { 
+      position: fixed; 
+      top: 0; left: 0; 
+      width: 100vw; height: 100vh; 
+      z-index: -1; 
+      opacity: 0.8; 
+    }
+    
+    .navbar { 
+      position: fixed; 
+      top: 0; left: 0; 
+      width: 100%; 
+      z-index: 100; 
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px); 
+      background-color: rgba(10, 10, 26, 0.8); 
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.15), 0 2px 8px rgba(255, 0, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    }
+    
+    .content-container { 
+      position: relative; 
+      z-index: 10; 
+      padding: 2rem 1rem; 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      min-height: 100vh; 
+      border-radius: 1.5rem; 
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.08), 0 0 60px rgba(255, 0, 255, 0.06);
+      margin-top: 4rem; 
+      margin-bottom: 2rem; 
+      background-color: rgba(0, 0, 0, 0); 
+    }
+    
+    .frosted-glass { 
+      background-color: rgba(26, 26, 46, 0.5); 
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                  inset 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+    
+    .card { 
+      position: relative; 
+      overflow: hidden; 
+      z-index: 1;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0, 255, 255, 0.25), 
+                  0 0 20px rgba(255, 0, 255, 0.15),
+                  inset 0 0 15px rgba(0, 255, 255, 0.1);
+    }
+    
+    .card::before { 
+      content: ''; 
+      position: absolute; 
+      top: 0; left: -100%; 
+      width: 100%; height: 100%; 
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); 
+      transform: skewX(-30deg); 
+      z-index: -1; 
+      transition: left 0.8s ease-out;
+    }
+    
+    .card:hover::before { 
+      left: 120%; 
+    }
+    
+    .cta-button { 
+      padding: 0.8rem 2.2rem; 
+      font-weight: 600; 
+      border-radius: 9999px; 
+      background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+      box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4), 
+                  0 0 30px rgba(255, 0, 255, 0.3);
+      transition: all 0.3s ease-out;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.5px;
+      border: none;
+    }
+    
+    .cta-button:hover { 
+      transform: translateY(-4px) scale(1.05); 
+      box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6), 
+                  0 0 40px rgba(255, 0, 255, 0.4);
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+    
+    .form-input { 
+      width: 100%; 
+      padding: 0.85rem; 
+      border-radius: 0.75rem; 
+      background-color: rgba(255, 255, 255, 0.08); 
+      color: var(--text-light); 
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .form-input:focus { 
+      outline: none; 
+      border-color: var(--primary);
+      background-color: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3),
+                  0 0 25px rgba(255, 0, 255, 0.2);
+      transform: scale(1.02);
+    }
+    
+    .modal { 
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      left: 0; top: 0; 
+      width: 100%; height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      justify-content: center; 
+      align-items: center;
+      transition: opacity 0.4s ease-out;
+      opacity: 0;
+    }
+    
+    .modal-content { 
+      background-color: var(--bg-light); 
+      padding: 2.8rem; 
+      border-radius: 1.2rem; 
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4),
+                  0 0 40px rgba(255, 0, 255, 0.3);
+      text-align: center;
+      transform: scale(0.9);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .modal.active { 
+      display: flex; 
+      opacity: 1; 
+    }
+    
+    .modal.active .modal-content { 
+      transform: scale(1) translateY(0);
+    }
+    
+    .compact-card {
+      padding: 1.1rem;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    
+    .compact-card:hover {
+      transform: translateX(5px);
+      background-color: rgba(0, 255, 255, 0.05);
+      border-left-color: var(--accent);
+    }
+    
+    .compact-title {
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Space Grotesk', sans-serif;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    }
+    
+    .compact-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    
+    .tech-item {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 1.1rem;
+      border-radius: 0.6rem;
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    
+    .tech-item:hover {
+      transform: translateY(-3px);
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    }
+    
+    .tech-item h4 {
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .tech-item p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    
+    .section-header {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+    
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .pulse-glow {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 30px rgba(255, 0, 255, 0.4); }
+      100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+    }
+    
+    .neon-border {
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2),
+                  0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    
+    .portfolio-item:hover img {
+      transform: scale(1.08);
+    }
+    
+    .portfolio-item:hover .overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 255, 0.1);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      border: 2px solid var(--bg-dark);
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, var(--secondary), var(--primary));
+    }
+  </style>
 </head>
 <body class="bg-gray-950">
-    <!-- Canvas element for the Three.js animation -->
-    <canvas id="background-canvas"></canvas>
-
-    <!-- Fixed Navigation Bar -->
-    <nav class="navbar py-4 px-8">
-        <div class="flex justify-between items-center max-w-7xl mx-auto">
-            <a href="#hero" class="text-2xl font-bold text-cyan-400">Neuronet</a>
-            <div class="hidden md:flex space-x-8">
-                <!-- Links now navigate to new sections -->
-                <a href="#about-us" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">About Us</a>
-                <a href="#innovations" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Innovations</a>
-                <a href="#portfolio" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Portfolio</a>
-                <a href="#case-studies" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Case Studies</a>
-                <a href="#podcasts" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Podcasts</a>
-                <a href="#careers" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Careers</a>
-                <a href="#tech-solutions" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Solutions</a>
-                <a href="#documentation" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Documentation</a>
-                <!-- The contact link now points to the new form section -->
-                <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main content that will scroll over the canvas -->
-    <div class="content-container">
-        <!-- Hero Section with a Call to Action -->
-        <header id="hero" class="text-center py-24 px-4 rounded-2xl frosted-glass border-4 border-cyan-400 shadow-xl shadow-cyan-950">
-            <h1 class="text-5xl sm:text-6xl font-extrabold text-cyan-400 drop-shadow-lg [text-shadow:4px_4px_8px_#000000]">Neuronet</h1>
-            <p class="mt-4 text-xl sm:text-2xl text-gray-300 font-light tracking-wide">Connecting Minds, Building the Future.</p>
-            <p class="mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">We are at the forefront of AI and technology, delivering cutting-edge solutions that transform industries and inspire innovation.</p>
-            <!-- Hero button now links to the new contact form -->
-            <a href="#contact" class="mt-8 inline-block cta-button">
-                Connect with Us
-            </a>
-        </header>
-
-        <!-- New About Us Section -->
-        <section id="about-us" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">About Neuronet</h2>
-            <p class="text-lg text-gray-300 leading-relaxed mb-6">
-                At Neuronet, we are more than just a technology company; we are a hub of innovation and a collective of forward-thinking individuals. Our mission, "Connecting Minds, Building the Future," is the cornerstone of everything we do. We specialize in developing groundbreaking solutions that leverage the power of **AI, cloud computing, and cybersecurity** to solve complex problems and create new opportunities.
-            </p>
-            <p class="text-lg text-gray-300 leading-relaxed mb-6">
-                Our expertise is born from a passion for excellence and a commitment to continuous learning. From architecting robust **backend systems** to crafting seamless **mobile experiences** and securing digital landscapes, our team is dedicated to pushing the boundaries of what's possible. We believe that the best ideas are a result of collaboration and a deep understanding of core principles, inspired by the great minds who have shaped our industry.
-            </p>
-            <p class="text-lg text-gray-300 leading-relaxed">
-                We're a place for ambitious professionals to grow and thrive. Our **career opportunities** and **developer resources** are designed to nurture talent and empower individuals to make a real impact. Join us as we build the next generation of technology and create a brighter, more connected future.
-            </p>
-        </section>
-
-        <!-- Innovations Section -->
-        <section id="innovations" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Neuronet Innovations & Insights</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-orange-500">
-                    <h3 class="font-bold text-orange-500 text-lg mb-2">Backend</h3>
-                    <p class="text-sm text-gray-300"><strong>Microservices vs. Monoliths</strong><br>The architectural choice between microservices and a monolith is critical. Understand the trade-offs in scalability, complexity, and deployment.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-purple-500">
-                    <h3 class="font-bold text-purple-500 text-lg mb-2">Testing</h3>
-                    <p class="text-sm text-gray-300"><strong>The Importance of Unit Testing</strong><br>Unit tests are the first line of defense against bugs. Learn to write effective tests that ensure your code functions as expected and is easy to refactor.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-green-500">
-                    <h3 class="font-bold text-green-500 text-lg mb-2">Cloud Computing</h3>
-                    <p class="text-sm text-gray-300"><strong>The Serverless Revolution</strong><br>Serverless architectures are changing the way applications are built and scaled. Understand the benefits and drawbacks of services like AWS Lambda and Google Cloud Functions.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-red-500">
-                    <h3 class="font-bold text-red-500 text-lg mb-2">Cybersecurity</h3>
-                    <p class="text-sm text-gray-300"><strong>Staying Ahead of Threats</strong><br>The threat landscape is constantly evolving. Continuous learning about new attack vectors and defense strategies is crucial for every cybersecurity professional.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-yellow-500">
-                    <h3 class="font-bold text-yellow-500 text-lg mb-2">Frontend</h3>
-                    <p class="text-sm text-gray-300"><strong>The Rise of Modern CSS</strong><br>CSS has evolved far beyond simple styling. With flexbox, grid, and new features, it's a powerful tool for building complex, responsive layouts.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-cyan-500">
-                    <h3 class="font-bold text-cyan-500 text-lg mb-2">DevOps</h3>
-                    <p class="text-sm text-gray-300"><strong>CI/CD Pipelines Explained</strong><br>A robust CI/CD pipeline is the backbone of modern software delivery. Learn how to automate your build, test, and deployment processes to increase efficiency.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-pink-500">
-                    <h3 class="font-bold text-pink-500 text-lg mb-2">AI/ML</h3>
-                    <p class="text-sm text-gray-300"><strong>Understanding Neural Networks</strong><br>Dive into the fundamentals of deep learning. Explore how neural networks work, from simple perceptrons to complex architectures like transformers and GANs.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border-l-4 border-l-lime-500">
-                    <h3 class="font-bold text-lime-500 text-lg mb-2">Data Science</h3>
-                    <p class="text-sm text-gray-400"><strong>The Power of Big Data</strong><br>Examine the tools and techniques used to handle massive datasets. Learn about distributed systems, data lakes, and the ETL process.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- New Portfolio Section with Cloudinary Integration -->
-        <section id="portfolio" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Neuronet Portfolio</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
-                A selection of our latest projects and design concepts, powered by cutting-edge technology and creative vision.
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                
-                <div class="relative overflow-hidden rounded-xl border-2 border-slate-600 group">
-                    <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988577/Screen_Shot_2025-08-24_at_4.06.01_AM_nftt1q.png" alt="A descriptive alt text" class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gray-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 text-center">
-                        <div>
-                            <h3 class="text-lg font-bold text-cyan-400 mb-2">NeuroVerse</h3>
-                            <p class="text-sm text-gray-300">The backbone of a fully operational AI tool marketplace specialized in vehicular autonomity.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative overflow-hidden rounded-xl border-2 border-slate-600 group">
-                    <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988929/Screen_Shot_2025-08-24_at_4.11.43_AM_ejh5eh.png" alt="A descriptive alt text" class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gray-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 text-center">
-                        <div>
-                            <h3 class="text-lg font-bold text-cyan-400 mb-2">eArbor</h3>
-                            <p class="text-sm text-gray-300">A model of regsistration for canadian truckers </p>
-                        </div>
-                    </div>
-                </div>
-
-               
-               
-            </div>
-        </section>
-
-        <!-- NEW CASE STUDIES SECTION -->
-        <section id="case-studies" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Our Case Studies</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
-                Detailed insights into how we tackle complex challenges and deliver impactful solutions for our clients.
-            </p>
-            <div class="space-y-12">
-                <!-- Case Study 1 -->
-                <div class="card p-8 rounded-2xl bg-gray-900/60 border border-slate-600 flex flex-col md:flex-row items-center md:items-start">
-                    <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=Fintech+Platform+Case+Study" alt="Fintech Platform" class="w-full md:w-1/3 rounded-xl mb-6 md:mb-0 md:mr-8 shadow-md">
-                    <div class="flex-1">
-                        <h3 class="text-3xl font-bold text-sky-400 mb-2">NextGen Financial Analytics Platform</h3>
-                        <p class="text-sm text-gray-500 mb-4">Client: Finnovate Inc. | Industry: Financial Services</p>
-                        <p class="text-lg text-gray-300 leading-relaxed mb-4">
-                            We partnered with Finnovate Inc. to build a scalable financial analytics platform that processes real-time market data. The challenge was to handle massive data streams and provide predictive insights with minimal latency. We designed a microservices architecture to ensure high availability and scalability.
-                        </p>
-                        <h4 class="text-xl font-semibold text-lime-400 mb-2">Technologies Used:</h4>
-                        <ul class="list-disc list-inside text-gray-400 text-base space-y-1">
-                            <li><strong>Backend:</strong> Node.js, Python (Django)</li>
-                            <li><strong>Database:</strong> PostgreSQL, Redis (for caching)</li>
-                            <li><strong>Frontend:</strong> React, Tailwind CSS</li>
-                            <li><strong>Cloud:</strong> AWS Lambda, S3, RDS</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Case Study 2 -->
-                <div class="card p-8 rounded-2xl bg-gray-900/60 border border-slate-600 flex flex-col md:flex-row items-center md:items-start">
-                    <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=E-commerce+Solution+Case+Study" alt="E-commerce Solution" class="w-full md:w-1/3 rounded-xl mb-6 md:mb-0 md:mr-8 shadow-md">
-                    <div class="flex-1">
-                        <h3 class="text-3xl font-bold text-sky-400 mb-2">Seamless E-commerce Experience</h3>
-                        <p class="text-sm text-gray-500 mb-4">Client: Global Goods Co. | Industry: Retail</p>
-                        <p class="text-lg text-gray-300 leading-relaxed mb-4">
-                            Global Goods Co. needed a complete e-commerce platform with a focus on a personalized user experience. Our solution included a custom recommendation engine powered by machine learning, a robust inventory management system, and a modern, responsive user interface. The platform boosted customer engagement by 40% and conversion rates by 25%.
-                        </p>
-                        <h4 class="text-xl font-semibold text-lime-400 mb-2">Technologies Used:</h4>
-                        <ul class="list-disc list-inside text-gray-400 text-base space-y-1">
-                            <li><strong>Backend:</strong> Python (Flask)</li>
-                            <li><strong>Database:</strong> MongoDB</li>
-                            <li><strong>Frontend:</strong> Vue.js, Vuex</li>
-                            <li><strong>Cloud:</strong> Google Cloud Functions, Cloud Storage</li>
-                            <li><strong>AI/ML:</strong> TensorFlow (for recommendation engine)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NEW PODCASTS SECTION -->
-        <section id="podcasts" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Neuronet Podcasts</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
-                Listen to our experts discuss the latest trends in technology, AI, and business innovation.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div style="height: 228px; width: 600px;">
-                    <iframe src="https://audio.com/embed/audio/1841296586059727?theme=image" style="display:block; border-radius: 1px; border: none; height: 204px; width: 600px;"></iframe>
-                    <a href='https://audio.com/krish-ramoju' style="text-align: center; display: block; color: #A4ABB6; font-size: 12px; font-family: sans-serif; line-height: 16px; margin-top: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Credits: Ritvik Krozi</a>
-                </div>
-            <div style="height: 228px; width: 600px;">
-                <iframe src="https://audio.com/embed/audio/1841296581528842?theme=image" style="display:block; border-radius: 1px; border: none; height: 204px; width: 600px;"></iframe>
-                <a href='https://audio.com/krish-ramoju' style="text-align: center; display: block; color: #A4ABB6; font-size: 12px; font-family: sans-serif; line-height: 16px; margin-top: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Credits: Ritvik Krozi</a>
-            </div>
-            <div style="height: 228px; width: 600px;">
-                <iframe src="https://audio.com/embed/audio/1841296581633409?theme=image" style="display:block; border-radius: 1px; border: none; height: 204px; width: 600px;"></iframe>
-                <a href='https://audio.com/krish-ramoju' style="text-align: center; display: block; color: #A4ABB6; font-size: 12px; font-family: sans-serif; line-height: 16px; margin-top: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Credits: Ritvik Krozi</a>
-            </div>
-            <div style="height: 228px; width: 600px;">
-                <iframe src="https://audio.com/embed/audio/1841296581801402?theme=image" style="display:block; border-radius: 1px; border: none; height: 204px; width: 600px;"></iframe>
-                <a href='https://audio.com/krish-ramoju' style="text-align: center; display: block; color: #A4ABB6; font-size: 12px; font-family: sans-serif; line-height: 16px; margin-top: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Credits: Ritvik Krozi</a>
-            </div>
-                
-            </div>
-        </section>
-        
-        <!-- Quotes Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Inspiration from Innovators</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">Design is not just what it looks like and feels like. Design is how it works.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Steve Jobs</cite>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">The computer was born to solve problems that did not exist before.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Bill Gates</cite>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">If you are not embarrassed by the first version of your product, you’ve launched too late.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Reid Hoffman</cite>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">Any fool can write code that a computer can understand. Good programmers write code that humans can understand.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Martin Fowler</cite>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">Simplicity is the ultimate sophistication.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Leonardo da Vinci</cite>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <blockquote class="text-base italic text-gray-300 mb-3">The best way to predict the future is to create it.</blockquote>
-                    <cite class="block text-right text-xs font-medium text-gray-400">- Alan Kay</cite>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tech Solutions Section -->
-        <section id="tech-solutions" class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Our Tech Solutions</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">Backend: REST API for a Blog</h3>
-                    <p class="text-sm text-gray-300">Create a robust and secure RESTful API for a blog application. Implement features like user authentication, post creation, and comments.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">Blockchain: Simple Smart Contract DApp</h3>
-                    <p class="text-sm text-gray-300">Build a decentralized application (DApp) with a simple smart contract on a test network like Ethereum's Sepolia network. Explore concepts of web3 and blockchain interaction.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">Mobile Development: Offline-First To-Do App</h3>
-                    <p class="text-sm text-gray-300">Create a to-do list application for mobile that works even without an internet connection.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">IoT: Home Temperature Monitor</h3>
-                    <p class="text-sm text-gray-300">Use a microcontroller like an Arduino or Raspberry Pi to build a system that monitors and logs room temperature, sending alerts via a mobile app or email.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">Data Science: Movie Recommendation System</h3>
-                    <p class="text-sm text-gray-300">Build a movie recommendation engine using collaborative filtering or content-based filtering algorithms. Use a dataset like the MovieLens dataset.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-fuchsia-500 text-lg mb-2">Game Dev: Simple Tower Defense Game</h3>
-                    <p class="text-sm text-gray-300">Develop a basic 2D tower defense game using a canvas or game engine. Implement pathfinding for enemies and different types of defensive towers.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Careers Section -->
-        <section id="careers" class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Careers at Neuronet</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-cyan-500 mb-1">AI/ML Engineer</h3>
-                    <p class="text-sm text-gray-400">Mountain View, CA<br>CogniTech Labs</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-cyan-500 mb-1">Cloud DevOps Engineer</h3>
-                    <p class="text-sm text-gray-400">Seattle, WA<br>Global Cloud Services</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-cyan-500 mb-1">Senior Software Engineer</h3>
-                    <p class="text-sm text-gray-400">San Francisco, CA<br>Innovatech Solutions</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-cyan-500 mb-1">Data Scientist</h3>
-                    <p class="text-sm text-gray-400">New York, NY<br>Quantum Analytics</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-cyan-500 mb-1">Frontend Developer</h3>
-                    <p class="text-sm text-gray-400">Remote<br>PixelPerfect Labs</p>
-                </li>
-            </ul>
-        </section>
-
-        <!-- News Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Neuronet in the News</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-green-500 mb-1">Cybersecurity Breaches Cost Billions</h3>
-                    <p class="text-sm text-gray-400">A new report shows that major data breaches are costing companies billions, highlighting the urgent need for enhanced security protocols.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-green-500 mb-1">Low-Code/No-Code Tools Emerge as Industry Standard</h3>
-                    <p class="text-sm text-gray-400">More businesses are adopting low-code platforms to accelerate application development, democratizing software creation.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-bold text-lg text-green-500 mb-1">Quantum Computing Reaches New Milestone</h3>
-                    <p class="text-sm text-gray-400">Researchers have announced a breakthrough in quantum error correction, bringing practical quantum computers closer to reality.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-green-500 mb-1">New JavaScript Framework Surges in Popularity</h3>
-                    <p class="text-sm text-gray-400">A new framework, 'Aurora.js,' has gained rapid adoption for its streamlined state management and component architecture.</p>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Interview Process Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Our Interview Process</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-purple-500 mb-1">Behavioral</h3>
-                    <p class="text-sm text-gray-400">Describe a time you had to lead a project. What was your approach and the outcome?</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-purple-500 mb-1">Data Structures</h3>
-                    <p class="text-sm text-gray-400">What is a hash table and what is its typical time complexity for insertion and retrieval?</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-purple-500 mb-1">JavaScript</h3>
-                    <p class="text-sm text-gray-400">Explain event delegation in JavaScript and why it's useful.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-purple-500 mb-1">Problem Solving</h3>
-                    <p class="text-sm text-gray-400">Tell me about a project where you faced a significant obstacle. How did you overcome it?</p>
-                </li>
-            </ul>
-        </section>
-        
-        <!-- Developer Resources Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Developer Resources</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-orange-500 mb-1">Data Scientist</h3>
-                    <p class="text-sm text-gray-400">9-15 months<br>Begin with Python, learn statistics and linear algebra, then master libraries like Pandas, NumPy, and Scikit-learn.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-orange-500 mb-1">Cybersecurity Analyst</h3>
-                    <p class="text-sm text-gray-400">8-16 months<br>Begin with network security, then learn about vulnerability management, threat detection, and incident response. Obtain certifications like CompTIA Security+.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-orange-500 mb-1">Full-Stack Developer</h3>
-                    <p class="text-sm text-gray-400">6-12 months<br>Start with HTML/CSS/JS, then learn a backend language (Node.js, Python), and finally a framework (React, Vue, Angular).</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-orange-500 mb-1">Mobile App Developer</h3>
-                    <p class="text-sm text-gray-400">4-8 months<br>Choose between native (Swift/Kotlin) or cross-platform (React Native, Flutter). Focus on UI/UX and API integration.</p>
-                </li>
-            </ul>
-        </section>
-        
-        <!-- Technology Stack Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Technology Stack</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-lime-500 mb-1">Code Editor: VS Code</h3>
-                    <p class="text-sm text-gray-400">A lightweight but powerful source code editor developed by Microsoft. It has a vast ecosystem of extensions.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-lime-500 mb-1">Containerization: Docker</h3>
-                    <p class="text-sm text-gray-400">A platform for developers to build, share, and run applications with containers. It ensures consistency across environments.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-lime-500 mb-1">UI/UX Design: Figma</h3>
-                    <p class="text-sm text-gray-400">A web-based vector graphics editor and prototyping tool. It's a must-have for modern UI/UX designers.</p>
-                </div>
-                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-lime-500 mb-1">CI/CD: GitHub Actions</h3>
-                    <p class="text-sm text-gray-400">A workflow automation tool directly integrated into the GitHub platform. Used for continuous integration and deployment.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI & ML Expertise Section -->
-        <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">AI & ML Expertise</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-pink-500 mb-1">TensorFlow</h3>
-                    <p class="text-sm text-gray-400">An open-source library for machine learning and artificial intelligence developed by Google. It's used for deep learning and neural network research.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-pink-500 mb-1">PyTorch</h3>
-                    <p class="text-sm text-gray-400">A machine learning framework developed by Facebook's AI Research lab. Known for its dynamic computation graph and ease of use.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-pink-500 mb-1">Coursera: Machine Learning Specialization</h3>
-                    <p class="text-sm text-gray-400">A beginner-friendly course by Andrew Ng that provides a broad introduction to machine learning, data mining, and statistical pattern recognition.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
-                    <h3 class="font-bold text-lg text-pink-500 mb-1">Papers with Code</h3>
-                    <p class="text-sm text-gray-400">A free resource that links machine learning papers with their corresponding source code. A great way to stay up-to-date with new research.</p>
-                </li>
-            </ul>
-        </section>
-
-        <!-- New Contact Form Section -->
-        <section id="contact" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Get in Touch</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
-                Ready to transform your business or have a question about our work? Fill out the form below and we'll get back to you as soon as possible.
-            </p>
-            <!-- Updated form to send data to Formspree -->
-            <form id="contact-form" action="https://formspree.io/f/mqadzzgl" method="POST" class="space-y-6">
-                <!-- Hidden inputs for formspree functionality -->
-                <input type="hidden" name="_subject" value="New contact form submission!">
-                <input type="hidden" name="_replyto" id="reply-to-email">
-                
-                <div>
-                    <label for="name" class="block text-lg font-medium text-gray-200 mb-2">Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Doe" class="form-input" required>
-                </div>
-                <div>
-                    <label for="email" class="block text-lg font-medium text-gray-200 mb-2">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" class="form-input" required>
-                </div>
-                <div>
-                    <label for="message" class="block text-lg font-medium text-gray-200 mb-2">Message</label>
-                    <textarea id="message" name="message" rows="5" placeholder="Your message here..." class="form-input resize-none" required></textarea>
-                </div>
-                <div class="text-center pt-4">
-                    <button type="submit" class="cta-button w-full sm:w-auto">
-                        Send Message
-                    </button>
-                </div>
-            </form>
-        </section>
-        <section id="documentation" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
-            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Documentation</h2>
-            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
-            Access our comprehensive documentation for a deep dive into our projects and technologies.
-            </p>
-
-            <div class="w-full h-[600px] overflow-hidden rounded-xl border-2 border-gray-600">
-                <iframe src="https://docs.google.com/document/d/1kWSpGMdSp9Z9v0m_Q7PsVqJKhWO8TUdjFeGs5bwFNKU/edit?usp=sharing" class="w-full h-full border-0"></iframe>
-            </div>
-
-
-        </section>
-
-        <!-- Footer -->
-        <footer id="footer" class="text-center py-8 text-xs text-gray-500">
-            <p>&copy; 2024 Neuronet. All rights reserved.</p>
-            <p class="mt-2 text-base text-cyan-400 font-bold">Inspired by the work of Ajith Sai, Nihith, and Imad at Upskillfam.</p>
-        </footer>
+  <canvas id="background-canvas"></canvas>
+  <nav class="navbar py-4 px-8">
+    <div class="flex justify-between items-center max-w-7xl mx-auto">
+      <a href="#hero" class="text-2xl font-bold gradient-text montserrat">Neuronet</a>
+      <div class="hidden md:flex space-x-10">
+        <a href="#about-us" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">About Us</a>
+        <a href="#innovations" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Innovations</a>
+        <a href="#portfolio" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Portfolio</a>
+        <a href="#case-studies" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Case Studies</a>
+        <a href="#podcasts" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Podcasts</a>
+        <a href="#careers" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Careers</a>
+        <a href="#tech-solutions" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Solutions</a>
+        <a href="#documentation" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Documentation</a>
+        <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Contact</a>
+      </div>
     </div>
-
-    <!-- Modal for success message -->
-    <div id="success-modal" class="modal">
-        <div class="modal-content">
-            <h3 class="text-2xl font-bold text-cyan-400 mb-4">Message Sent!</h3>
-            <p class="text-gray-300">Thank you for your message. We'll get back to you soon.</p>
-            <button id="close-modal" class="mt-6 cta-button">Close</button>
+  </nav>
+  <div class="content-container">
+    <header id="hero" class="text-center py-28 px-6 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h1 class="text-6xl sm:text-7xl font-extrabold gradient-text drop-shadow-2xl [text-shadow:4px_4px_8px_#000000] mb-4 pulse-glow space-grotesk" style="letter-spacing: -2px;">Neuronet</h1>
+      <p class="mt-4 text-2xl sm:text-3xl text-gray-200 font-light tracking-wide mb-6 inter">Connecting Minds, Building the Future.</p>
+      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8 opacity-90 inter">At the forefront of AI and technology, delivering cutting-edge solutions that transform industries and inspire innovation.</p>
+      <a href="#contact" class="inline-block cta-button text-lg hover:shadow-2xl transition-all duration-300 montserrat">Connect with Us</a>
+    </header>
+    <section id="about-us" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-yellow-400 mb-10 space-grotesk">About Neuronet</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <p class="text-lg text-gray-200 leading-relaxed inter">At Neuronet, we are more than just a technology company; we are a hub of innovation and a collective of forward-thinking individuals. Our mission, "Connecting Minds, Building the Future," is the cornerstone of everything we do.</p>
+          <p class="text-lg text-gray-200 leading-relaxed inter">We specialize in developing groundbreaking solutions that leverage the power of <span class="font-semibold text-cyan-400">AI, cloud computing, and cybersecurity</span> to solve complex problems and create new opportunities.</p>
+          <p class="text-lg text-gray-200 leading-relaxed inter">Our expertise is born from a passion for excellence and a commitment to continuous learning. From architecting robust <span class="font-semibold text-purple-400">backend systems</span> to crafting seamless <span class="font-semibold text-yellow-400">mobile experiences</span> and securing digital landscapes, our team is dedicated to pushing the boundaries of what's possible.</p>
         </div>
+        <div>
+          <div class="tech-grid">
+            <div class="tech-item">
+              <h4 class="space-grotesk">AI & ML</h4>
+              <p class="roboto-mono">TensorFlow, PyTorch, Keras, Scikit-learn</p>
+            </div>
+            <div class="tech-item">
+              <h4 class="space-grotesk">Cloud</h4>
+              <p class="roboto-mono">AWS, GCP, Azure, Docker, Kubernetes</p>
+            </div>
+            <div class="tech-item">
+              <h4 class="space-grotesk">Web</h4>
+              <p class="roboto-mono">React, Vue, Angular, Node.js, Django</p>
+            </div>
+            <div class="tech-item">
+              <h4 class="space-grotesk">Mobile</h4>
+              <p class="roboto-mono">React Native, Flutter, Swift, Kotlin</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 mt-6 leading-relaxed inter">We're a place for ambitious professionals to grow and thrive. Our career opportunities and developer resources are designed to nurture talent and empower individuals to make a real impact. Join us as we build the next generation of technology and create a brighter, more connected future.</p>
+        </div>
+      </div>
+    </section>
+    <section id="innovations" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Neuronet Innovations & Insights</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-cyan-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-cyan-400 text-xl mb-3 space-grotesk">Backend Architecture</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Microservices vs. Monoliths</strong><br>The architectural choice between microservices and a monolith is critical. Understand the trade-offs in scalability, complexity, and deployment.</p>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-purple-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-purple-400 text-xl mb-3 space-grotesk">Testing Strategies</h3>
+          <p class="text-sm text-gray-300 inter"><strong>The Importance of Unit Testing</strong><br>Unit tests are the first line of defense against bugs. Learn to write effective tests that ensure your code functions as expected.</p>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-green-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-green-400 text-xl mb-3 space-grotesk">Cloud Computing</h3>
+          <p class="text-sm text-gray-300 inter"><strong>The Serverless Revolution</strong><br>Serverless architectures are changing how applications are built and scaled. Understand the benefits of services like AWS Lambda.</p>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-red-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-red-400 text-xl mb-3 space-grotesk">Cybersecurity</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Staying Ahead of Threats</strong><br>The threat landscape is constantly evolving. Continuous learning about new attack vectors and defense strategies is crucial.</p>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-yellow-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-yellow-400 text-xl mb-3 space-grotesk">Frontend Development</h3>
+          <p class="text-sm text-gray-300 inter"><strong>The Rise of Modern CSS</strong><br>CSS has evolved far beyond simple styling. With flexbox, grid, and new features, it's a powerful tool for complex layouts.</p>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-blue-500 hover:border-l-6 transition-all duration-300">
+          <h3 class="font-bold text-blue-400 text-xl mb-3 space-grotesk">DevOps</h3>
+          <p class="text-sm text-gray-300 inter"><strong>CI/CD Pipelines</strong><br>A robust CI/CD pipeline is the backbone of modern software delivery. Automate your build, test, and deployment processes.</p>
+        </div>
+      </div>
+    </section>
+    <section id="portfolio" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Neuronet Portfolio</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">A selection of our latest projects and design concepts, powered by cutting-edge technology and creative vision.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="portfolio-item relative overflow-hidden rounded-2xl border-2 border-slate-600 group">
+          <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988577/Screen_Shot_2025-08-24_at_4.06.01_AM_nftt1q.png" alt="NeuroVerse" class="w-full h-auto transform transition-transform duration-700 ease-out">
+          <div class="overlay absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 transform translate-y-full transition-all duration-500 flex items-end p-6">
+            <div>
+              <h3 class="text-xl font-bold text-cyan-400 mb-2 space-grotesk">NeuroVerse</h3>
+              <p class="text-sm text-gray-200 inter">The backbone of a fully operational AI tool marketplace specialized in vehicular autonomity.</p>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-item relative overflow-hidden rounded-2xl border-2 border-slate-600 group">
+          <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988929/Screen_Shot_2025-08-24_at_4.11.43_AM_ejh5eh.png" alt="eArbor" class="w-full h-auto transform transition-transform duration-700 ease-out">
+          <div class="overlay absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 transform translate-y-full transition-all duration-500 flex items-end p-6">
+            <div>
+              <h3 class="text-xl font-bold text-cyan-400 mb-2 space-grotesk">eArbor</h3>
+              <p class="text-sm text-gray-200 inter">A model of registration for Canadian truckers with advanced compliance tracking.</p>
+            </div>
+          </div>
+        </div>
+        <div class="portfolio-item relative overflow-hidden rounded-2xl border-2 border-slate-600 group">
+          <img src="https://placehold.co/800x600/1c1c3f/ffffff?text=AI+Healthcare+Platform" alt="AI Healthcare" class="w-full h-auto transform transition-transform duration-700 ease-out">
+          <div class="overlay absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 transform translate-y-full transition-all duration-500 flex items-end p-6">
+            <div>
+              <h3 class="text-xl font-bold text-cyan-400 mb-2 space-grotesk">MediAI</h3>
+              <p class="text-sm text-gray-200 inter">AI-powered diagnostic platform for early disease detection with 95% accuracy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="case-studies" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Our Case Studies</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Detailed insights into how we tackle complex challenges and deliver impactful solutions for our clients.</p>
+      <div class="space-y-8">
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <div class="flex flex-col lg:flex-row">
+            <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=Fintech+Platform+Case+Study" alt="Fintech Platform" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-cyan-400 mb-2 space-grotesk">NextGen Financial Analytics Platform</h3>
+              <p class="text-sm text-purple-300 mb-4 inter">Client: Finnovate Inc. | Industry: Financial Services</p>
+              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">We partnered with Finnovate Inc. to build a scalable financial analytics platform that processes real-time market data. The challenge was to handle massive data streams and provide predictive insights with minimal latency.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-medium border border-cyan-500/30 inter">Microservices</span>
+                <span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs font-medium border border-green-500/30 inter">Real-time</span>
+                <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-medium border border-purple-500/30 inter">Predictive</span>
+              </div>
+              <h4 class="text-lg font-semibold text-yellow-400 mb-2 space-grotesk">Technologies:</h4>
+              <p class="text-xs text-gray-400 roboto-mono">Node.js, Python, PostgreSQL, AWS Lambda, React</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-7 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <div class="flex flex-col lg:flex-row">
+            <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=E-commerce+Solution+Case+Study" alt="E-commerce Solution" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-cyan-400 mb-2 space-grotesk">Seamless E-commerce Experience</h3>
+              <p class="text-sm text-purple-300 mb-4 inter">Client: Global Goods Co. | Industry: Retail</p>
+              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">Global Goods Co. needed a complete e-commerce platform with a focus on a personalized user experience. Our solution included a custom recommendation engine powered by machine learning.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/30 inter">Personalization</span>
+                <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-medium border border-cyan-500/30 inter">ML Integration</span>
+                <span class="bg-pink-500/20 text-pink-300 px-3 py-1 rounded-full text-xs font-medium border border-pink-500/30 inter">High Conversion</span>
+              </div>
+              <h4 class="text-lg font-semibold text-yellow-400 mb-2 space-grotesk">Technologies:</h4>
+              <p class="text-xs text-gray-400 roboto-mono">Python, MongoDB, Vue.js, TensorFlow, Google Cloud</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="podcasts" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Neuronet Podcasts</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Listen to our experts discuss the latest trends in technology, AI, and business innovation.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <iframe src="https://audio.com/embed/audio/1841296586059727?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">The Future of AI in Healthcare</a>
+        </div>
+        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <iframe src="https://audio.com/embed/audio/1841296581528842?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Blockchain Beyond Cryptocurrency</a>
+        </div>
+        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <iframe src="https://audio.com/embed/audio/1841296581633409?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">The Ethics of Artificial Intelligence</a>
+        </div>
+        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <iframe src="https://audio.com/embed/audio/1841296581801402?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Quantum Computing: Reality vs. Hype</a>
+        </div>
+      </div>
+    </section>
+    <section id="careers" class="p-10 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Careers at Neuronet</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">AI/ML Engineer</h3>
+          <p class="compact-text inter">Mountain View, CA | CogniTech Labs<br>Design and implement machine learning models for complex problems</p>
+        </div>
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">Cloud DevOps Engineer</h3>
+          <p class="compact-text inter">Seattle, WA | Global Cloud Services<br>Manage cloud infrastructure and CI/CD pipelines</p>
+        </div>
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">Senior Software Engineer</h3>
+          <p class="compact-text inter">San Francisco, CA | Innovatech Solutions<br>Lead development of scalable backend systems</p>
+        </div>
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">Data Scientist</h3>
+          <p class="compact-text inter">New York, NY | Quantum Analytics<br>Analyze complex datasets to drive business decisions</p>
+        </div>
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">Frontend Developer</h3>
+          <p class="compact-text inter">Remote | PixelPerfect Labs<br>Create intuitive user interfaces with modern frameworks</p>
+        </div>
+        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="compact-title text-lg space-grotesk">Cybersecurity Analyst</h3>
+          <p class="compact-text inter">Boston, MA | SecureNet Systems<br>Protect systems from emerging cyber threats</p>
+        </div>
+      </div>
+    </section>
+    <section id="tech-solutions" class="p-10 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Our Tech Solutions</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="card p-6 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="font-bold text-fuchsia-400 text-lg mb-3 space-grotesk">Backend: REST API for a Blog</h3>
+          <p class="text-sm text-gray-300 inter">Create a robust and secure RESTful API for a blog application. Implement features like user authentication, post creation, and comments.</p>
+        </div>
+        <div class="card p-6 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="font-bold text-fuchsia-400 text-lg mb-3 space-grotesk">Blockchain: Simple Smart Contract DApp</h3>
+          <p class="text-sm text-gray-300 inter">Build a decentralized application (DApp) with a simple smart contract on a test network like Ethereum's Sepolia network.</p>
+        </div>
+        <div class="card p-6 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="font-bold text-fuchsia-400 text-lg mb-3 space-grotesk">Mobile Development: Offline-First To-Do App</h3>
+          <p class="text-sm text-gray-300 inter">Create a to-do list application for mobile that works even without an internet connection.</p>
+        </div>
+        <div class="card p-6 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+          <h3 class="font-bold text-fuchsia-400 text-lg mb-3 space-grotesk">IoT: Home Temperature Monitor</h3>
+          <p class="text-sm text-gray-300 inter">Use a microcontroller like an Arduino or Raspberry Pi to build a system that monitors and logs room temperature.</p>
+        </div>
+      </div>
+    </section>
+    <section id="documentation" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Documentation</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-8 inter">Access our comprehensive documentation for a deep dive into our projects and technologies.</p>
+      <div class="w-full h-[500px] overflow-hidden rounded-2xl border-2 border-gray-600">
+        <iframe src="https://docs.google.com/document/d/1kWSpGMdSp9Z9v0m_Q7PsVqJKhWO8TUdjFeGs5bwFNKU/edit?usp=sharing" class="w-full h-full border-0"></iframe>
+      </div>
+    </section>
+    <section id="contact" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Get in Touch</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Ready to transform your business or have a question about our work? Fill out the form below and we'll get back to you as soon as possible.</p>
+      <form id="contact-form" action="https://formspree.io/f/mqadzzgl" method="POST" class="space-y-7">
+        <input type="hidden" name="_subject" value="New contact form submission!">
+        <input type="hidden" name="_replyto" id="reply-to-email">
+        <div>
+          <label for="name" class="block text-lg font-medium text-gray-200 mb-3 inter">Name</label>
+          <input type="text" id="name" name="name" placeholder="John Doe" class="form-input text-base" required>
+        </div>
+        <div>
+          <label for="email" class="block text-lg font-medium text-gray-200 mb-3 inter">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" class="form-input text-base" required>
+        </div>
+        <div>
+          <label for="message" class="block text-lg font-medium text-gray-200 mb-3 inter">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your message here..." class="form-input resize-none text-base" required></textarea>
+        </div>
+        <div class="text-center pt-2">
+          <button type="submit" class="cta-button text-lg hover:shadow-2xl transition-all duration-300 w-full sm:w-auto montserrat">Send Message</button>
+        </div>
+      </form>
+    </section>
+    <footer id="footer" class="text-center py-10 text-sm text-gray-500">
+      <p class="text-base inter">&copy; 2024 Neuronet. All rights reserved.</p>
+      <p class="mt-3 text-lg text-cyan-400 font-bold tracking-wide space-grotesk">Inspired by the work of Ajith Sai, Nihith, and Imad at Upskillfam.</p>
+    </footer>
+  </div>
+  <div id="success-modal" class="modal">
+    <div class="modal-content">
+      <h3 class="text-3xl font-bold text-cyan-400 mb-5 space-grotesk">Message Sent!</h3>
+      <p class="text-gray-300 text-lg inter">Thank you for your message. We'll get back to you soon.</p>
+      <button id="close-modal" class="mt-8 cta-button text-lg montserrat">Close</button>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('background-canvas');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            // Set up a more subtle fog to give depth
-            scene.fog = new THREE.Fog(0x0a0a1a, 10, 400);
-
-            // Create a function to generate particle systems
-            const createParticles = (particleCount, size, color) => {
-                const particleGeometry = new THREE.BufferGeometry();
-                const positions = new Float32Array(particleCount * 3);
-                const colors = new Float32Array(particleCount * 3);
-                
-                for (let i = 0; i < particleCount * 3; i += 3) {
-                    positions[i] = (Math.random() - 0.5) * 1000;
-                    positions[i + 1] = (Math.random() - 0.5) * 1000;
-                    positions[i + 2] = Math.random() * 1000; // Particles start in front of the camera
-                    const c = new THREE.Color(color);
-                    colors[i] = c.r;
-                    colors[i + 1] = c.g;
-                    colors[i + 2] = c.b;
-                }
-                particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                const particleMaterial = new THREE.PointsMaterial({ size, vertexColors: true, transparent: true, opacity: 0.9 });
-                return new THREE.Points(particleGeometry, particleMaterial);
-            };
-
-            // Create two layers of particles for a sense of depth and speed
-            const fastParticles = createParticles(5000, 2, 0xff00ff); // Magenta-colored fast particles
-            const slowParticles = createParticles(2000, 1, 0x00ffff); // Cyan-colored slow particles
-            
-            // Set initial positions and add to scene
-            fastParticles.position.z = -100;
-            slowParticles.position.z = -100;
-
-            scene.add(fastParticles);
-            scene.add(slowParticles);
-
-            // Set a large initial Z position for the camera to simulate starting in the void
-            camera.position.z = 5;
-
-            const clock = new THREE.Clock();
-            
-            // The main animation loop
-            function animate() {
-                requestAnimationFrame(animate);
-
-                const delta = clock.getDelta();
-
-                // Get scroll position and total scrollable height
-                const scrollY = window.scrollY;
-                const totalHeight = document.body.scrollHeight - window.innerHeight;
-                const scrollProgress = totalHeight === 0 ? 0 : scrollY / totalHeight;
-
-                // Move particles based on scroll position for a parallel effect
-                // We multiply by a large number to make the movement noticeable
-                const scrollSpeed = 5000;
-                const fastParticleZ = scrollProgress * scrollSpeed;
-                const slowParticleZ = scrollProgress * scrollSpeed * 0.5;
-
-                // Animate particles to move through the space
-                // The particles are given a base speed, and the scroll adds to it
-                const animateParticles = (particles, baseSpeed) => {
-                    const particlePositions = particles.geometry.attributes.position.array;
-                    for (let i = 2; i < particlePositions.length; i += 3) {
-                        // Move particles forward based on a fixed speed and scroll speed
-                        particlePositions[i] -= baseSpeed + scrollY * 0.05;
-                        if (particlePositions[i] < -1000) {
-                            particlePositions[i] = 1000; // Reset particle position to the beginning
-                        }
-                    }
-                    particles.geometry.attributes.position.needsUpdate = true;
-                };
-
-                // Animate particles based on their type
-                animateParticles(fastParticles, 5); // Fast particles move faster
-                animateParticles(slowParticles, 2); // Slow particles move slower
-                
-                renderer.render(scene, camera);
-            }
-
-            // Handle window resizing
-            const handleResize = () => {
-                const width = window.innerWidth;
-                const height = window.innerHeight;
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(width, height);
-            };
-
-            const resizeObserver = new ResizeObserver(handleResize);
-            resizeObserver.observe(document.body);
-
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-
-            // Form submission logic for Formspree
-            const form = document.getElementById('contact-form');
-            const emailInput = document.getElementById('email');
-            const replyToEmailInput = document.getElementById('reply-to-email');
-            const successModal = document.getElementById('success-modal');
-            const closeModalButton = document.getElementById('close-modal');
-
-            // Update the hidden reply-to field with the user's email
-            emailInput.addEventListener('input', (e) => {
-                replyToEmailInput.value = e.target.value;
-            });
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Prevent the default form submission and page reload
-                
-                // Get the form action URL from the HTML
-                const formAction = form.getAttribute('action');
-                const formData = new FormData(form);
-
-                try {
-                    const response = await fetch(formAction, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json' // Crucial for receiving a JSON response from Formspree
-                        }
-                    });
-
-                    if (response.ok) {
-                        form.reset(); // Clear the form fields
-                        successModal.classList.add('active'); // Show the success modal
-                    } else {
-                        // Handle errors from Formspree
-                        const errorData = await response.json();
-                        console.error('Form submission failed:', errorData);
-                        alert("Oops! There was a problem submitting your form.");
-                    }
-                } catch (error) {
-                    console.error('Error submitting form:', error);
-                    alert("Oops! There was an unexpected error. Please try again later.");
-                    
-                }
-            });
-
-            // Close the modal when the close button is clicked
-            closeModalButton.addEventListener('click', () => {
-                successModal.classList.remove('active');
-            });
-            // Close the modal when clicking outside of it
-            window.addEventListener('click', (e) => {
-                if (e.target === successModal) {
-                    successModal.classList.remove('active');
-                }
-            });
-
-            animate();
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('background-canvas');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      scene.fog = new THREE.Fog(0x0a0a1a, 10, 400);
+      
+      const createParticles = (particleCount, size, color) => {
+        const particleGeometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i += 3) {
+          positions[i] = (Math.random() - 0.5) * 1000;
+          positions[i + 1] = (Math.random() - 0.5) * 1000;
+          positions[i + 2] = Math.random() * 1000;
+          const c = new THREE.Color(color);
+          colors[i] = c.r;
+          colors[i + 1] = c.g;
+          colors[i + 2] = c.b;
+        }
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        const particleMaterial = new THREE.PointsMaterial({ 
+          size, 
+          vertexColors: true, 
+          transparent: true, 
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending
         });
-    </script>
+        return new THREE.Points(particleGeometry, particleMaterial);
+      };
+      
+      const fastParticles = createParticles(4000, 1.8, 0x00ffff);
+      const slowParticles = createParticles(2000, 1, 0xff00ff);
+      fastParticles.position.z = -100;
+      slowParticles.position.z = -100;
+      scene.add(fastParticles);
+      scene.add(slowParticles);
+      
+      camera.position.z = 5;
+      const clock = new THREE.Clock();
+      
+      function animate() {
+        requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+        const scrollY = window.scrollY;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollProgress = totalHeight === 0 ? 0 : scrollY / totalHeight;
+        const scrollSpeed = 4000;
+        
+        const animateParticles = (particles, baseSpeed) => {
+          const particlePositions = particles.geometry.attributes.position.array;
+          for (let i = 2; i < particlePositions.length; i += 3) {
+            particlePositions[i] -= baseSpeed + scrollY * 0.03;
+            if (particlePositions[i] < -1000) {
+              particlePositions[i] = 1000;
+            }
+          }
+          particles.geometry.attributes.position.needsUpdate = true;
+        };
+        
+        animateParticles(fastParticles, 4);
+        animateParticles(slowParticles, 1.5);
+        renderer.render(scene, camera);
+      }
+      
+      const handleResize = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      };
+      
+      const resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver.observe(document.body);
+      
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      
+      const form = document.getElementById('contact-form');
+      const emailInput = document.getElementById('email');
+      const replyToEmailInput = document.getElementById('reply-to-email');
+      const successModal = document.getElementById('success-modal');
+      const closeModalButton = document.getElementById('close-modal');
+      
+      emailInput.addEventListener('input', (e) => {
+        replyToEmailInput.value = e.target.value;
+      });
+      
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formAction = form.getAttribute('action');
+        const formData = new FormData(form);
+        try {
+          const response = await fetch(formAction, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (response.ok) {
+            form.reset();
+            successModal.classList.add('active');
+          } else {
+            const errorData = await response.json();
+            console.error('Form submission failed:', errorData);
+            alert("Oops! There was a problem submitting your form.");
+          }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          alert("Oops! There was an unexpected error. Please try again later.");
+        }
+      });
+      
+      closeModalButton.addEventListener('click', () => {
+        successModal.classList.remove('active');
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === successModal) {
+          successModal.classList.remove('active');
+        }
+      });
+      
+      animate();
+    });
+  </script>
 </body>
 </html>
-
+```

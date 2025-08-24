@@ -51,6 +51,7 @@
             width: 100%;
             z-index: 100;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             background-color: rgba(13, 13, 30, 0.7);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
@@ -221,6 +222,8 @@
                 <a href="#about-us" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">About Us</a>
                 <a href="#innovations" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Innovations</a>
                 <a href="#portfolio" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Portfolio</a>
+                <a href="#case-studies" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Case Studies</a>
+                <a href="#podcasts" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Podcasts</a>
                 <a href="#careers" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Careers</a>
                 <a href="#tech-solutions" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Solutions</a>
                 <!-- The contact link now points to the new form section -->
@@ -314,7 +317,7 @@
                     </div>
                 </div>
                 
-                               <div class="relative overflow-hidden rounded-xl border-2 border-slate-600 group">
+                <div class="relative overflow-hidden rounded-xl border-2 border-slate-600 group">
                     <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988929/Screen_Shot_2025-08-24_at_4.11.43_AM_ejh5eh.png" alt="A descriptive alt text" class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gray-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 text-center">
                         <div>
@@ -323,10 +326,103 @@
                         </div>
                     </div>
                 </div>
+
+               
                
             </div>
         </section>
 
+        <!-- NEW CASE STUDIES SECTION -->
+        <section id="case-studies" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
+            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Our Case Studies</h2>
+            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
+                Detailed insights into how we tackle complex challenges and deliver impactful solutions for our clients.
+            </p>
+            <div class="space-y-12">
+                <!-- Case Study 1 -->
+                <div class="card p-8 rounded-2xl bg-gray-900/60 border border-slate-600 flex flex-col md:flex-row items-center md:items-start">
+                    <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=Fintech+Platform+Case+Study" alt="Fintech Platform" class="w-full md:w-1/3 rounded-xl mb-6 md:mb-0 md:mr-8 shadow-md">
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold text-sky-400 mb-2">NextGen Financial Analytics Platform</h3>
+                        <p class="text-sm text-gray-500 mb-4">Client: Finnovate Inc. | Industry: Financial Services</p>
+                        <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                            We partnered with Finnovate Inc. to build a scalable financial analytics platform that processes real-time market data. The challenge was to handle massive data streams and provide predictive insights with minimal latency. We designed a microservices architecture to ensure high availability and scalability.
+                        </p>
+                        <h4 class="text-xl font-semibold text-lime-400 mb-2">Technologies Used:</h4>
+                        <ul class="list-disc list-inside text-gray-400 text-base space-y-1">
+                            <li><strong>Backend:</strong> Node.js, Python (Django)</li>
+                            <li><strong>Database:</strong> PostgreSQL, Redis (for caching)</li>
+                            <li><strong>Frontend:</strong> React, Tailwind CSS</li>
+                            <li><strong>Cloud:</strong> AWS Lambda, S3, RDS</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Case Study 2 -->
+                <div class="card p-8 rounded-2xl bg-gray-900/60 border border-slate-600 flex flex-col md:flex-row items-center md:items-start">
+                    <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=E-commerce+Solution+Case+Study" alt="E-commerce Solution" class="w-full md:w-1/3 rounded-xl mb-6 md:mb-0 md:mr-8 shadow-md">
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold text-sky-400 mb-2">Seamless E-commerce Experience</h3>
+                        <p class="text-sm text-gray-500 mb-4">Client: Global Goods Co. | Industry: Retail</p>
+                        <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                            Global Goods Co. needed a complete e-commerce platform with a focus on a personalized user experience. Our solution included a custom recommendation engine powered by machine learning, a robust inventory management system, and a modern, responsive user interface. The platform boosted customer engagement by 40% and conversion rates by 25%.
+                        </p>
+                        <h4 class="text-xl font-semibold text-lime-400 mb-2">Technologies Used:</h4>
+                        <ul class="list-disc list-inside text-gray-400 text-base space-y-1">
+                            <li><strong>Backend:</strong> Python (Flask)</li>
+                            <li><strong>Database:</strong> MongoDB</li>
+                            <li><strong>Frontend:</strong> Vue.js, Vuex</li>
+                            <li><strong>Cloud:</strong> Google Cloud Functions, Cloud Storage</li>
+                            <li><strong>AI/ML:</strong> TensorFlow (for recommendation engine)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW PODCASTS SECTION -->
+        <section id="podcasts" class="p-8 mt-12 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
+            <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md text-center">Neuronet Podcasts</h2>
+            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8">
+                Listen to our experts discuss the latest trends in technology, AI, and business innovation.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                    <h3 class="font-bold text-lg text-green-500 mb-2">Ritvik Krozi</h3>
+                    <p class="text-sm text-gray-400 mb-4">Part 1</p>
+                    <audio controls class="w-full">
+                        <source src="https://audio.com/krish-ramoju/audio/first-audio" type="audio/mpeg">
+                        
+                    </audio>
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                    <h3 class="font-bold text-lg text-green-500 mb-2">Ritvik Krozi</h3>
+                    <p class="text-sm text-gray-400 mb-4">Part 2</p>
+                    <audio controls class="w-full">
+                        <source src="https://audio.com/krish-ramoju/audio/second-audio" type="audio/mpeg">
+                        
+                    </audio>
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                    <h3 class="font-bold text-lg text-green-500 mb-2">Ritvik Krozi</h3>
+                    <p class="text-sm text-gray-400 mb-4">Part 3</p>
+                    <audio controls class="w-full">
+                        <source src="https://audio.com/krish-ramoju/audio/third-audio" type="audio/mpeg">
+                        
+                    </audio>
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                    <h3 class="font-bold text-lg text-green-500 mb-2">Ritvik Krozi</h3>
+                    <p class="text-sm text-gray-400 mb-4">Part 4</p>
+                    <audio controls class="w-full">
+                        <source src="https://audio.com/krish-ramoju/audio/fourth-audio" type="audio/mpeg">
+                        
+                    </audio>
+                </div>
+                
+            </div>
+        </section>
+        
         <!-- Quotes Section -->
         <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
             <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Inspiration from Innovators</h2>
@@ -488,24 +584,24 @@
         <!-- Technology Stack Section -->
         <section class="p-8 mb-12 rounded-3xl frosted-glass border-2 border-slate-700 shadow-xl shadow-gray-950">
             <h2 class="text-4xl font-semibold text-sky-400 mb-8 drop-shadow-md">Technology Stack</h2>
-            <ul class="space-y-6">
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
                     <h3 class="font-bold text-lg text-lime-500 mb-1">Code Editor: VS Code</h3>
                     <p class="text-sm text-gray-400">A lightweight but powerful source code editor developed by Microsoft. It has a vast ecosystem of extensions.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
                     <h3 class="font-bold text-lg text-lime-500 mb-1">Containerization: Docker</h3>
                     <p class="text-sm text-gray-400">A platform for developers to build, share, and run applications with containers. It ensures consistency across environments.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
                     <h3 class="font-bold text-lg text-lime-500 mb-1">UI/UX Design: Figma</h3>
                     <p class="text-sm text-gray-400">A web-based vector graphics editor and prototyping tool. It's a must-have for modern UI/UX designers.</p>
-                </li>
-                <li class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
+                </div>
+                <div class="card p-6 rounded-xl bg-gray-900/60 border border-slate-600">
                     <h3 class="font-bold text-lg text-lime-500 mb-1">CI/CD: GitHub Actions</h3>
                     <p class="text-sm text-gray-400">A workflow automation tool directly integrated into the GitHub platform. Used for continuous integration and deployment.</p>
-                </li>
-            </ul>
+                </div>
+            </div>
         </section>
 
         <!-- AI & ML Expertise Section -->
@@ -538,7 +634,7 @@
                 Ready to transform your business or have a question about our work? Fill out the form below and we'll get back to you as soon as possible.
             </p>
             <!-- Updated form to send data to Formspree -->
-            <form id="contact-form" action="https://formspree.io/f/your_form_id" method="POST" class="space-y-6">
+            <form id="contact-form" action="https://formspree.io/f/mqadzzgl" method="POST" class="space-y-6">
                 <!-- Hidden inputs for formspree functionality -->
                 <input type="hidden" name="_subject" value="New contact form submission!">
                 <input type="hidden" name="_replyto" id="reply-to-email">
@@ -727,6 +823,7 @@
                 } catch (error) {
                     console.error('Error submitting form:', error);
                     alert("Oops! There was an unexpected error. Please try again later.");
+                    
                 }
             });
 
@@ -746,3 +843,4 @@
     </script>
 </body>
 </html>
+

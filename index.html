@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neuronet - The Future of AI</title>
+  <title>Neuronet HealthTech - AI Software for Healthcare</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,244 +18,198 @@
   </script>
   <style>
     :root {
-      --primary: #00ffff;
-      --primary-dark: #00cccc;
-      --secondary: #ff00ff;
-      --secondary-dark: #cc00cc;
-      --accent: #ffff00;
-      --accent-dark: #cccc00;
-      --bg-dark: #0a0a1a;
-      --bg-light: #1a1a2e;
-      --text-light: #e0e0e0;
-      --text-muted: #a0a0c0;
+      --primary: #34d399;
+      --primary-dark: #059669;
+      --secondary: #2563eb;
+      --secondary-dark: #1e40af;
+      --accent: #f59e42;
+      --accent-dark: #b45309;
+      --bg-dark: #111827;
+      --bg-light: #1a2236;
+      --text-light: #e2e8f0;
+      --text-muted: #64748b;
     }
-    
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background-color: var(--bg-dark); 
-      color: var(--text-light); 
-      overflow-x: hidden; 
-      background-image: radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1), transparent 50%), 
-                       radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.1), transparent 50%);
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 30% 20%, rgba(52,211,153,0.09), transparent 60%), radial-gradient(circle at 80% 80%, rgba(37,99,235,0.08), transparent 60%);
     }
-    
     h1, h2, h3, h4, h5, h6 {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
+      letter-spacing: -1px;
     }
-    
     .montserrat { font-family: 'Montserrat', sans-serif; }
     .inter { font-family: 'Inter', sans-serif; }
     .roboto-mono { font-family: 'Roboto Mono', monospace; }
-    
-    #background-canvas { 
-      position: fixed; 
-      top: 0; left: 0; 
-      width: 100vw; height: 100vh; 
-      z-index: -1; 
-      opacity: 0.8; 
+    #background-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      opacity: 0.8;
     }
-    
-    .navbar { 
-      position: fixed; 
-      top: 0; left: 0; 
-      width: 100%; 
-      z-index: 100; 
-      backdrop-filter: blur(12px); 
-      -webkit-backdrop-filter: blur(12px); 
-      background-color: rgba(10, 10, 26, 0.8); 
-      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.15), 0 2px 8px rgba(255, 0, 255, 0.1);
-      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    .navbar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background-color: rgba(17,24,39,0.85);
+      box-shadow: 0 4px 24px rgba(52,211,153,0.10), 0 2px 8px rgba(37,99,235,0.08);
+      border-bottom: 1px solid rgba(34,211,153,0.13);
     }
-    
-    .content-container { 
-      position: relative; 
-      z-index: 10; 
-      padding: 2rem 1rem; 
-      max-width: 1000px; 
-      margin: 0 auto; 
-      min-height: 100vh; 
-      border-radius: 1.5rem; 
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.08), 0 0 60px rgba(255, 0, 255, 0.06);
-      margin-top: 4rem; 
-      margin-bottom: 2rem; 
-      background-color: rgba(0, 0, 0, 0); 
+    .content-container {
+      position: relative;
+      z-index: 10;
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 100vh;
+      border-radius: 1.5rem;
+      box-shadow: 0 0 40px rgba(52,211,153,0.08), 0 0 60px rgba(37,99,235,0.06);
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      background-color: rgba(17,24,39,0.02);
     }
-    
-    .frosted-glass { 
-      background-color: rgba(26, 26, 46, 0.5); 
-      backdrop-filter: blur(12px); 
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                  inset 0 0 2px rgba(255, 255, 255, 0.1);
+    .frosted-glass {
+      background-color: rgba(26,34,54,0.47);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(52,211,153,0.11);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.28), inset 0 0 2px rgba(255,255,255,0.08);
     }
-    
-    .card { 
-      position: relative; 
-      overflow: hidden; 
+    .card {
+      position: relative;
+      overflow: hidden;
       z-index: 1;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+      border-radius: 1rem;
+      background: rgba(17,24,39,0.45);
+      border: 1px solid rgba(52,211,153,0.11);
     }
-    
     .card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 12px 25px rgba(0, 255, 255, 0.25), 
-                  0 0 20px rgba(255, 0, 255, 0.15),
-                  inset 0 0 15px rgba(0, 255, 255, 0.1);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(52,211,153,0.17), 0 0 20px rgba(37,99,235,0.13), inset 0 0 13px rgba(52,211,153,0.08);
+      border-color: var(--accent);
     }
-    
-    .card::before { 
-      content: ''; 
-      position: absolute; 
-      top: 0; left: -100%; 
-      width: 100%; height: 100%; 
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); 
-      transform: skewX(-30deg); 
-      z-index: -1; 
-      transition: left 0.8s ease-out;
-    }
-    
-    .card:hover::before { 
-      left: 120%; 
-    }
-    
-    .cta-button { 
-      padding: 0.8rem 2.2rem; 
-      font-weight: 600; 
-      border-radius: 9999px; 
-      background: linear-gradient(90deg, var(--primary), var(--secondary)); 
-      box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4), 
-                  0 0 30px rgba(255, 0, 255, 0.3);
-      transition: all 0.3s ease-out;
+    .cta-button {
+      padding: 0.85rem 2.4rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      box-shadow: 0 6px 24px rgba(52,211,153,0.38), 0 0 36px rgba(37,99,235,0.23);
+      transition: all 0.3s ease;
       font-family: 'Space Grotesk', sans-serif;
       letter-spacing: 0.5px;
       border: none;
     }
-    
-    .cta-button:hover { 
-      transform: translateY(-4px) scale(1.05); 
-      box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6), 
-                  0 0 40px rgba(255, 0, 255, 0.4);
+    .cta-button:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 36px rgba(52,211,153,0.53), 0 0 42px rgba(37,99,235,0.36);
       background: linear-gradient(90deg, var(--secondary), var(--primary));
     }
-    
-    .form-input { 
-      width: 100%; 
-      padding: 0.85rem; 
-      border-radius: 0.75rem; 
-      background-color: rgba(255, 255, 255, 0.08); 
-      color: var(--text-light); 
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .form-input {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 0.75rem;
+      background-color: rgba(255,255,255,0.09);
+      color: var(--text-light);
+      border: 1px solid rgba(52,211,153,0.18);
       font-family: 'Inter', sans-serif;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    
-    .form-input:focus { 
-      outline: none; 
+    .form-input:focus {
+      outline: none;
       border-color: var(--primary);
-      background-color: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3),
-                  0 0 25px rgba(255, 0, 255, 0.2);
+      background-color: rgba(52,211,153,0.13);
+      box-shadow: 0 0 18px rgba(52,211,153,0.23), 0 0 25px rgba(37,99,235,0.14);
       transform: scale(1.02);
     }
-    
-    .modal { 
-      display: none; 
-      position: fixed; 
-      z-index: 1000; 
-      left: 0; top: 0; 
-      width: 100%; height: 100%; 
-      overflow: auto; 
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
       background-color: rgba(0,0,0,0.85);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      justify-content: center; 
+      justify-content: center;
       align-items: center;
       transition: opacity 0.4s ease-out;
       opacity: 0;
     }
-    
-    .modal-content { 
-      background-color: var(--bg-light); 
-      padding: 2.8rem; 
-      border-radius: 1.2rem; 
+    .modal-content {
+      background-color: var(--bg-light);
+      padding: 2.5rem;
+      border-radius: 1.2rem;
       border: 2px solid var(--primary);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4),
-                  0 0 40px rgba(255, 0, 255, 0.3);
+      box-shadow: 0 0 38px rgba(52,211,153,0.34), 0 0 42px rgba(37,99,235,0.24);
       text-align: center;
       transform: scale(0.9);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
     }
-    
-    .modal.active { 
-      display: flex; 
-      opacity: 1; 
+    .modal.active {
+      display: flex;
+      opacity: 1;
     }
-    
-    .modal.active .modal-content { 
+    .modal.active .modal-content {
       transform: scale(1) translateY(0);
     }
-    
     .compact-card {
-      padding: 1.1rem;
+      padding: 1.15rem;
       margin-bottom: 0.8rem;
       transition: all 0.3s ease;
+      border-radius: 0.75rem;
     }
-    
     .compact-card:hover {
-      transform: translateX(5px);
-      background-color: rgba(0, 255, 255, 0.05);
-      border-left-color: var(--accent);
+      transform: translateX(4px);
+      background-color: rgba(52,211,153,0.08);
+      border-left: 4px solid var(--accent);
     }
-    
     .compact-title {
       font-weight: 700;
       color: var(--primary);
       font-family: 'Space Grotesk', sans-serif;
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 7px rgba(52,211,153,0.27);
     }
-    
     .compact-text {
-      font-size: 0.9rem;
+      font-size: 0.94rem;
       color: var(--text-muted);
       line-height: 1.5;
     }
-    
     .tech-item {
-      background: rgba(255, 255, 255, 0.06);
-      padding: 1.1rem;
+      background: rgba(255,255,255,0.08);
+      padding: 1.14rem;
       border-radius: 0.6rem;
       border-left: 4px solid var(--primary);
       transition: all 0.3s ease;
       backdrop-filter: blur(4px);
     }
-    
     .tech-item:hover {
-      transform: translateY(-3px);
-      background: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+      transform: translateY(-2px);
+      background: rgba(52,211,153,0.11);
+      box-shadow: 0 5px 13px rgba(52,211,153,0.18);
     }
-    
     .tech-item h4 {
       color: var(--primary);
       font-size: 1.1rem;
       margin-bottom: 0.6rem;
       font-family: 'Space Grotesk', sans-serif;
     }
-    
     .tech-item p {
       color: var(--text-muted);
       font-size: 0.85rem;
       line-height: 1.5;
     }
-    
     .section-header {
       position: relative;
       display: inline-block;
       margin-bottom: 2rem;
+      letter-spacing: -.5px;
     }
-    
     .section-header::after {
       content: '';
       position: absolute;
@@ -266,116 +220,259 @@
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       border-radius: 2px;
     }
-    
     .gradient-text {
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
     .pulse-glow {
       animation: pulse 2s infinite;
     }
-    
     @keyframes pulse {
-      0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 30px rgba(255, 0, 255, 0.4); }
-      100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+      0% { box-shadow: 0 0 10px rgba(52,211,153,0.23);}
+      50% { box-shadow: 0 0 20px rgba(52,211,153,0.47), 0 0 30px rgba(37,99,235,0.27);}
+      100% { box-shadow: 0 0 10px rgba(52,211,153,0.23);}
     }
-    
     .neon-border {
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2),
-                  0 0 20px rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(52,211,153,0.21);
+      box-shadow: 0 0 10px rgba(52,211,153,0.14), 0 0 20px rgba(52,211,153,0.07);
     }
-    
     .portfolio-item:hover img {
-      transform: scale(1.08);
+      transform: scale(1.07);
     }
-    
     .portfolio-item:hover .overlay {
       opacity: 1;
       transform: translateY(0);
     }
-    
     .tech-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.2rem;
     }
-    
     ::-webkit-scrollbar {
       width: 10px;
     }
-    
     ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.06);
       border-radius: 20px;
-      border: 1px solid rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(52,211,153,0.09);
     }
-    
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, var(--primary), var(--secondary));
       border-radius: 20px;
       border: 2px solid var(--bg-dark);
     }
-    
     ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(180deg, var(--secondary), var(--primary));
     }
-    
     .voice-indicator {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 50px;
       height: 50px;
-      background: rgba(0, 255, 255, 0.2);
+      background: rgba(52,211,153,0.19);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #00ffff;
+      color: #34d399;
       font-size: 24px;
       z-index: 1001;
       opacity: 0;
       transition: opacity 0.3s ease;
-      border: 2px solid #00ffff;
+      border: 2px solid #34d399;
     }
-    
     .voice-indicator.active {
       opacity: 1;
       animation: pulse 1s infinite;
     }
-    
     @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
-      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); }
-      100% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(52,211,153,0.23);}
+      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(52,211,153,0.47);}
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(52,211,153,0.23);}
+    }
+    /* Chatbot Styles */
+    .chatbot-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(26,34,54,0.47);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12), inset 0 0 2px rgba(255,255,255,0.06);
+      border: 1px solid rgba(52,211,153,0.11);
+    }
+    .chat-messages {
+      height: 220px;
+      overflow-y: auto;
+      background: rgba(17,24,39,0.35);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+    }
+    .chat-message-user {
+      text-align: right;
+      color: var(--primary);
+      margin-bottom: 0.5em;
+      font-weight: 500;
+    }
+    .chat-message-bot {
+      text-align: left;
+      color: var(--secondary);
+      margin-bottom: 0.5em;
+      font-weight: 500;
+    }
+    .chat-input-bar {
+      display: flex;
+      gap: 0.7rem;
+    }
+    .chat-input-bar input {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 0.7rem;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.09);
+      color: var(--text-light);
+      border: 1px solid rgba(52,211,153,0.18);
+      font-family: 'Inter', sans-serif;
+    }
+    .chat-input-bar button {
+      padding: 0.8rem 1.5rem;
+      border-radius: 9999px;
+      border: none;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    .chat-input-bar button:hover {
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+    /* Handbook Styles */
+    .chatbot-guide {
+      background: rgba(17,24,39,0.26);
+      border: 1px solid rgba(52,211,153,0.13);
+      border-radius: 1rem;
+      padding: 1.4rem 2rem;
+      margin-bottom: 2rem;
+      margin-top: 1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 24px rgba(52,211,153,0.10);
+    }
+    .chatbot-guide h3 {
+      font-size: 1.35rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 0.4em;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .chatbot-guide ul {
+      padding-left: 1.2em;
+      margin-bottom: 0.7em;
+    }
+    .chatbot-guide li {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 0.5em;
+    }
+    .chatbot-guide strong {
+      color: var(--accent);
+      font-weight: bold;
+    }
+    .chatbot-guide .examples {
+      background: rgba(52,211,153,0.07);
+      padding: 1em;
+      border-radius: 0.7em;
+      margin-top: 0.6em;
+      font-size: 0.96em;
+      color: var(--text-light);
+    }
+    .chatbot-guide .output {
+      background: rgba(37,99,235,0.08);
+      padding: 1em;
+      border-radius: 0.7em;
+      margin-top: 0.6em;
+      font-size: 0.96em;
+      color: var(--text-light);
+    }
+    /* Team NeuroOS Styles */
+    .team-neuroos-list {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      background: rgba(26,34,54,0.47);
+      border-radius: 1.2rem;
+      padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.10), 0 0 24px rgba(52,211,153,0.09);
+      border: 1px solid rgba(34,211,153,0.11);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .team-neuroos-list h2 {
+      font-size: 2.3rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 1.3em;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -1.5px;
+      text-align: center;
+    }
+    .team-neuroos-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .team-neuroos-list li {
+      font-size: 1.15rem;
+      margin-bottom: 1.1em;
+      color: var(--text-light);
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+    .team-neuroos-list .lead {
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .team-neuroos-list .special {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    .team-neuroos-list .mentor {
+      color: var(--accent-dark);
+      font-weight: bold;
     }
   </style>
 </head>
-<body class="bg-gray-950">
+<body>
   <canvas id="background-canvas"></canvas>
   <nav class="navbar py-4 px-8">
     <div class="flex justify-between items-center max-w-7xl mx-auto">
-      <a href="#hero" class="text-2xl font-bold gradient-text montserrat">Neuronet</a>
+      <a href="#hero" class="text-2xl font-bold gradient-text montserrat tracking-tight">Neuronet HealthTech</a>
       <div class="hidden md:flex items-center space-x-6">
-        <a href="#about-us" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">About Us</a>
-        <a href="#innovations" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Innovations</a>
-        <a href="#portfolio" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Portfolio</a>
-        <a href="#case-studies" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Case Studies</a>
-        <a href="#podcasts" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Podcasts</a>
-        <a href="#careers" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Careers</a>
-        <a href="#documentation" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Documentation</a>
-        <a href="#acknowledgements" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Inspiration</a>
-        <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium tracking-wide inter">Contact</a>
+        <a href="#about-us" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">About Us</a>
+        <a href="#innovations" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Innovations</a>
+        <a href="#statistics" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Statistics</a>
+        <a href="#chatbot" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Skill Gap Chatbot</a>
+        <a href="#neuroverse" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Neuroverse</a>
+        <a href="#team-neuroos" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Team NeuroOS</a>
+        <a href="#case-studies" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Case Studies</a>
+        <a href="#careers" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Careers</a>
+        <a href="#acknowledgements" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Inspiration</a>
+        <a href="#contact" class="text-gray-300 hover:text-primary font-medium tracking-wide inter">Contact</a>
       </div>
-      <!-- Language Selector -->
       <div class="flex items-center">
         <label for="lang-select" class="sr-only">Choose Language:</label>
-        <select id="lang-select" class="bg-gray-800 text-white border border-cyan-500 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        <select id="lang-select" class="bg-gray-800 text-white border border-primary rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="en">English</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
@@ -385,75 +482,168 @@
   </nav>
   <div class="content-container">
     <header id="hero" class="text-center py-28 px-6 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h1 class="text-6xl sm:text-7xl font-extrabold gradient-text drop-shadow-2xl [text-shadow:4px_4px_8px_#000000] mb-4 pulse-glow space-grotesk" style="letter-spacing: -2px;">Neuronet</h1>
-      <p class="mt-4 text-2xl sm:text-3xl text-gray-200 font-light tracking-wide mb-6 inter">Connecting Minds, Building the Future.</p>
-      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8 opacity-90 inter">At the forefront of AI and technology, delivering cutting-edge solutions that transform industries and inspire innovation.</p>
-      <a href="#contact" class="inline-block cta-button text-lg hover:shadow-2xl transition-all duration-300 montserrat">Connect with Us</a>
+      <h1 class="text-6xl sm:text-7xl font-extrabold gradient-text mb-4 pulse-glow space-grotesk" style="letter-spacing: -2px;">Neuronet HealthTech</h1>
+      <p class="mt-4 text-2xl sm:text-3xl text-gray-200 font-light tracking-wide mb-6 inter">Transforming Healthcare with Intelligent Software</p>
+      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8 inter">We leverage advanced software, AI, and cloud technology to empower healthcare institutions, facilitate research, and improve patient outcomes worldwide.</p>
+      <a href="#contact" class="inline-block cta-button text-lg montserrat">Contact Us</a>
     </header>
-    <section id="about-us" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-yellow-400 mb-10 space-grotesk">About Neuronet</h2>
+    <section id="about-us" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">About Neuronet HealthTech</h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div class="space-y-6">
-          <p class="text-lg text-gray-200 leading-relaxed inter">At Neuronet, we are more than just a technology company; we are a hub of innovation and a collective of forward-thinking individuals. Our mission, "Connecting Minds, Building the Future," is the cornerstone of everything we do.</p>
-          <p class="text-lg text-gray-200 leading-relaxed inter">We specialize in developing groundbreaking solutions that leverage the power of <span class="font-semibold text-cyan-400">AI, cloud computing, and cybersecurity</span> to solve complex problems and create new opportunities.</p>
-          <p class="text-lg text-gray-200 leading-relaxed inter">Our expertise is born from a passion for excellence and a commitment to continuous learning. From architecting robust <span class="font-semibold text-purple-400">backend systems</span> to crafting seamless <span class="font-semibold text-yellow-400">mobile experiences</span> and securing digital landscapes, our team is dedicated to pushing the boundaries of what's possible.</p>
+          <p class="text-lg text-gray-200 leading-relaxed inter">Neuronet HealthTech is a pioneer in healthcare software, combining AI, secure cloud solutions, and medical data analytics. Our vision is to accelerate innovation in diagnostics, treatment, and patient care.</p>
+          <p class="text-lg text-gray-200 leading-relaxed inter">We build platforms for clinical decision support, predictive health analytics, and digital transformation—enabling hospitals and clinics to provide better, safer, and more accessible care.</p>
+          <p class="text-lg text-gray-200 leading-relaxed inter">Our engineers and data scientists are passionate about solving real-world medical challenges, from secure EHR integration to mobile telehealth experiences and compliance automation for global standards.</p>
         </div>
         <div>
           <div class="tech-grid">
             <div class="tech-item">
-              <h4 class="space-grotesk">AI & ML</h4>
-              <p class="roboto-mono">TensorFlow, PyTorch, Keras, Scikit-learn</p>
+              <h4 class="space-grotesk">AI in Medicine</h4>
+              <p class="roboto-mono">TensorFlow, PyTorch, Keras, Scikit-learn, HuggingFace Transformers</p>
             </div>
             <div class="tech-item">
-              <h4 class="space-grotesk">Cloud</h4>
-              <p class="roboto-mono">AWS, GCP, Azure, Docker, Kubernetes</p>
+              <h4 class="space-grotesk">Cloud Health</h4>
+              <p class="roboto-mono">AWS HealthLake, GCP Healthcare, Azure Health Data, Docker, Kubernetes</p>
             </div>
             <div class="tech-item">
-              <h4 class="space-grotesk">Web</h4>
-              <p class="roboto-mono">React, Vue, Angular, Node.js, Django</p>
+              <h4 class="space-grotesk">Web & Security</h4>
+              <p class="roboto-mono">React, Vue, Angular, Node.js, Django, HL7 FHIR, OAuth2</p>
             </div>
             <div class="tech-item">
-              <h4 class="space-grotesk">Mobile</h4>
-              <p class="roboto-mono">React Native, Flutter, Swift, Kotlin</p>
+              <h4 class="space-grotesk">Mobile Health</h4>
+              <p class="roboto-mono">React Native, Flutter, Swift, Kotlin, Wear OS Health</p>
             </div>
           </div>
-          <p class="text-sm text-gray-400 mt-6 leading-relaxed inter">We're a place for ambitious professionals to grow and thrive. Our career opportunities and developer resources are designed to nurture talent and empower individuals to make a real impact. Join us as we build the next generation of technology and create a brighter, more connected future.</p>
+          <p class="text-sm text-gray-400 mt-6 leading-relaxed inter">We nurture medical innovators, clinicians, and IT professionals—offering career paths and resources to make a lasting impact on healthcare.</p>
         </div>
       </div>
     </section>
-    <section id="innovations" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Neuronet Innovations & Insights</h2>
+    <section id="innovations" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">HealthTech Innovations & Insights</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-cyan-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-cyan-400 text-xl mb-3 space-grotesk">Backend Architecture</h3>
-          <p class="text-sm text-gray-300 inter"><strong>Microservices vs. Monoliths</strong><br>The architectural choice between microservices and a monolith is critical. Understand the trade-offs in scalability, complexity, and deployment.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-primary text-xl mb-3 space-grotesk">Clinical AI Architecture</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Modular Microservices:</strong> Scalable architectures for real-time medical data pipelines and secure interoperability across systems.</p>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-purple-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-purple-400 text-xl mb-3 space-grotesk">Testing Strategies</h3>
-          <p class="text-sm text-gray-300 inter"><strong>The Importance of Unit Testing</strong><br>Unit tests are the first line of defense against bugs. Learn to write effective tests that ensure your code functions as expected.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-secondary text-xl mb-3 space-grotesk">Medical Testing Automation</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Automated Validation:</strong> Continuous integration and test suites to ensure clinical software is robust and compliant with regulatory standards.</p>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-green-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-green-400 text-xl mb-3 space-grotesk">Cloud Computing</h3>
-          <p class="text-sm text-gray-300 inter"><strong>The Serverless Revolution</strong><br>Serverless architectures are changing how applications are built and scaled. Understand the benefits of services like AWS Lambda.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-accent text-xl mb-3 space-grotesk">Healthcare Cloud Platforms</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Serverless HealthOps:</strong> Cloud-native deployments supporting secure storage, analytics, and AI for patient-centric solutions.</p>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-red-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-red-400 text-xl mb-3 space-grotesk">Cybersecurity</h3>
-          <p class="text-sm text-gray-300 inter"><strong>Staying Ahead of Threats</strong><br>The threat landscape is constantly evolving. Continuous learning about new attack vectors and defense strategies is crucial.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-primary-dark text-xl mb-3 space-grotesk">Security in Health Data</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Proactive Threat Mitigation:</strong> Encryption, auditing, and threat intelligence for HIPAA/GDPR compliance and patient privacy.</p>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-yellow-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-yellow-400 text-xl mb-3 space-grotesk">Frontend Development</h3>
-          <p class="text-sm text-gray-300 inter"><strong>The Rise of Modern CSS</strong><br>CSS has evolved far beyond simple styling. With flexbox, grid, and new features, it's a powerful tool for complex layouts.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-secondary-dark text-xl mb-3 space-grotesk">Patient UX & Accessibility</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Modern UI/UX:</strong> Accessible, intuitive digital experiences for patient portals, telemedicine, and wearables.</p>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border-l-4 border-l-blue-500 hover:border-l-6 transition-all duration-300">
-          <h3 class="font-bold text-blue-400 text-xl mb-3 space-grotesk">DevOps</h3>
-          <p class="text-sm text-gray-300 inter"><strong>CI/CD Pipelines</strong><br>A robust CI/CD pipeline is the backbone of modern software delivery. Automate your build, test, and deployment processes.</p>
+        <div class="card p-7">
+          <h3 class="font-bold text-accent-dark text-xl mb-3 space-grotesk">DevOps for Healthcare</h3>
+          <p class="text-sm text-gray-300 inter"><strong>Automated CI/CD:</strong> Secure deployment pipelines for regulatory environments and rapid software iteration.</p>
         </div>
       </div>
     </section>
-    <section id="portfolio" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Neuronet Portfolio</h2>
-      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">A selection of our latest projects and design concepts, powered by cutting-edge technology and creative vision.</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section id="statistics" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Statistics: SDEs in the Medical Sector</h2>
+      <p class="text-center text-gray-400 text-lg max-w-3xl mx-auto mb-10 inter">
+        Data Analytics & Visualization (DAV) insights for Software Development Engineers (SDEs) working in healthcare. Below are relevant metrics on employability, commissions, overtime, and professional trends.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div class="card p-7 text-center">
+          <div class="text-5xl font-bold gradient-text mb-3 space-grotesk">92%</div>
+          <div class="text-lg font-semibold text-primary mb-2">Employability Rate</div>
+          <div class="text-sm text-gray-300">Percentage of SDEs in healthcare sector finding employment within 6 months of graduation.</div>
+        </div>
+        <div class="card p-7 text-center">
+          <div class="text-5xl font-bold gradient-text mb-3 space-grotesk">$24,000</div>
+          <div class="text-lg font-semibold text-secondary mb-2">Commissions/Yr</div>
+          <div class="text-sm text-gray-300">Average annual commission earned by medical software engineers.</div>
+        </div>
+        <div class="card p-7 text-center">
+          <div class="text-5xl font-bold gradient-text mb-3 space-grotesk">7.5 hrs</div>
+          <div class="text-lg font-semibold text-accent mb-2">Weekly Overtime</div>
+          <div class="text-sm text-gray-300">Average overtime worked per week by SDEs in medical organizations.</div>
+        </div>
+        <div class="card p-7 text-center">
+          <div class="text-5xl font-bold gradient-text mb-3 space-grotesk">78%</div>
+          <div class="text-lg font-semibold text-primary-dark mb-2">Remote/Hybrid Roles</div>
+          <div class="text-sm text-gray-300">Share of SDE jobs in healthcare currently offering remote or hybrid working options.</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card p-7">
+          <h4 class="text-xl font-bold text-accent mb-3 space-grotesk">Top Skills in Demand</h4>
+          <ul class="list-disc pl-6 text-gray-300 text-sm mb-2">
+            <li>Cloud Security & Compliance</li>
+            <li>FHIR & HL7 Integration</li>
+            <li>AI/ML for Diagnostics</li>
+            <li>Mobile Health App Development</li>
+            <li>Data Visualization & Analytics</li>
+          </ul>
+        </div>
+        <div class="card p-7">
+          <h4 class="text-xl font-bold text-secondary mb-3 space-grotesk">Professional Trends</h4>
+          <ul class="list-disc pl-6 text-gray-300 text-sm mb-2">
+            <li>Growth in telemedicine jobs (32% YoY)</li>
+            <li>Increasing need for interoperability engineers</li>
+            <li>Rising freelance opportunities (21% increase)</li>
+            <li>Higher average tenure compared to other tech sectors</li>
+            <li>Strong upward mobility in health informatics</li>
+          </ul>
+        </div>
+      </div>
+      <p class="mt-8 text-center text-xs text-gray-400">*Data visualized using DAV methodologies, sourced from industry reports (2024).</p>
+    </section>
+    <!-- CHATBOT SECTION WITH HANDBOOK/GUIDE -->
+    <section id="chatbot" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Skill Gap Chatbot</h2>
+      <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
+        <div class="chatbot-guide flex-1">
+          <h3>Skill Gap Chatbot Handbook</h3>
+          <ul>
+            <li><strong>What to enter:</strong> List your current skills (e.g. Python, React, ML, Cloud, Mobile, Beginner, etc.), describe your experience, or ask for advice on healthcare SDE learning paths.</li>
+            <li><strong>How to describe:</strong> Include tools, languages, frameworks, or experience level ("I am a beginner with Python and want to work in healthcare software").</li>
+            <li><strong>What the chatbot does:</strong> It analyzes your input and suggests learning paths, skills to add, and next steps relevant to the medical sector.</li>
+          </ul>
+          <div class="examples"><strong>Examples you can enter:</strong>
+            <ul>
+              <li>"I know Python and AWS, but want to work in hospital software."</li>
+              <li>"I am a beginner with React and want to specialize in medical web apps."</li>
+              <li>"I have experience in machine learning but no knowledge of healthcare standards."</li>
+              <li>"What should I learn next for a career in mobile health app development?"</li>
+            </ul>
+          </div>
+          <div class="output">
+            <strong>Typical Output:</strong>
+            <ul>
+              <li>Recommended skills and frameworks to add (e.g., FHIR, HL7, HIPAA, TensorFlow).</li>
+              <li>Suggested next learning steps or courses.</li>
+              <li>Advice on market demand and employability for healthcare SDEs.</li>
+              <li>Tips for building a portfolio tailored for medical software roles.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="chatbot-container flex-1">
+          <div id="chat-messages" class="chat-messages"></div>
+          <form id="chat-form" class="chat-input-bar">
+            <input type="text" id="chat-input" placeholder="Describe your skills or ask a question..." autocomplete="off" />
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- END CHATBOT SECTION -->
+    <section id="neuroverse" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Neuroverse</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-8 inter">
+        Explore our featured projects, media, and technical documentation – powering the next generation of healthcare and AI innovation.
+      </p>
+      <!-- Images from portfolio -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-14">
         <div class="portfolio-item relative overflow-hidden rounded-2xl border-2 border-slate-600 group">
           <img src="https://res.cloudinary.com/dylwxej1e/image/upload/v1755988577/Screen_Shot_2025-08-24_at_4.06.01_AM_nftt1q.png" alt="NeuroVerse" class="w-full h-auto transform transition-transform duration-700 ease-out">
           <div class="overlay absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 transform translate-y-full transition-all duration-500 flex items-end p-6">
@@ -472,118 +662,123 @@
             </div>
           </div>
         </div>
-        <div class="portfolio-item relative overflow-hidden rounded-2xl border-2 border-slate-600 group">
-          <img src="https://placehold.co/800x600/1c1c3f/ffffff?text=AI+Healthcare+Platform" alt="AI Healthcare" class="w-full h-auto transform transition-transform duration-700 ease-out">
-          <div class="overlay absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 transform translate-y-full transition-all duration-500 flex items-end p-6">
-            <div>
-              <h3 class="text-xl font-bold text-cyan-400 mb-2 space-grotesk">MediAI</h3>
-              <p class="text-sm text-gray-200 inter">AI-powered diagnostic platform for early disease detection with 95% accuracy.</p>
-            </div>
+      </div>
+      <!-- Podcasts embed -->
+      <div>
+        <h3 class="text-3xl font-bold gradient-text mb-6 text-center space-grotesk">Neuronet Podcasts</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600">
+            <iframe src="https://audio.com/embed/audio/1841296586059727?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+            <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">AI in Healthcare: Opportunities and Challenges</a>
+          </div>
+          <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600">
+            <iframe src="https://audio.com/embed/audio/1841296581528842?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+            <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Digital Transformation in Hospitals</a>
+          </div>
+          <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600">
+            <iframe src="https://audio.com/embed/audio/1841296581633409?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+            <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Patient Data Security & Privacy</a>
+          </div>
+          <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600">
+            <iframe src="https://audio.com/embed/audio/1841296581801402?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
+            <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">The Future of Telemedicine</a>
           </div>
         </div>
       </div>
+      <!-- Documentation embed -->
+      <div class="mt-16">
+        <h3 class="text-3xl font-bold gradient-text mb-6 text-center space-grotesk">Documentation</h3>
+        <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-8 inter">Access our technical documentation for healthcare platforms, integration frameworks, and compliance protocols.</p>
+        <div class="w-full h-[500px] overflow-hidden rounded-2xl border-2 border-gray-600">
+          <iframe src="https://docs.google.com/document/d/1kWSpGMdSp9Z9v0m_Q7PsVqJKhWO8TUdjFeGs5bwFNKU/edit?usp=sharing" class="w-full h-full border-0"></iframe>
+        </div>
+      </div>
     </section>
-    <section id="case-studies" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Our Case Studies</h2>
-      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Detailed insights into how we tackle complex challenges and deliver impactful solutions for our clients.</p>
+    <!-- TEAM NEUROOS SECTION -->
+    <section id="team-neuroos" class="team-neuroos-list">
+      <h2>Team NeuroOS</h2>
+      <ul>
+        <li><span class="lead">Krish Ramoju</span> – Project Lead</li>
+        <li><span class="lead">John Ethan</span> – Project Co-lead</li>
+        <li><span class="lead">Vasisht Sai Boredy</span> – Documentation Lead</li>
+        <li><span class="lead">Ritvik Krozi</span> – Marketing Lead</li>
+        <li><span class="lead">Aisha Khan</span> – Marketing Co-lead</li>
+        <li><span class="special">Special Thanks:</span> Siva @eArbor</li>
+        <li><span class="special">Special Thanks:</span> Ram Patibandla @eArbor</li>
+        <li><span class="special">Special Thanks:</span> Team CBIT OSC for Hackweek giving the motivation</li>
+        <li><span class="mentor">Mentor:</span> Ajith Sai</li>
+      </ul>
+    </section>
+    <!-- END TEAM NEUROOS SECTION -->
+    <section id="case-studies" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Case Studies</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">How Neuronet HealthTech delivers impact: real results for healthcare organizations.</p>
       <div class="space-y-8">
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+        <div class="card p-7">
           <div class="flex flex-col lg:flex-row">
-            <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=Fintech+Platform+Case+Study" alt="Fintech Platform" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
+            <img src="https://placehold.co/800x450/34d399/ffffff?text=Hospital+AI+Case+Study" alt="Hospital AI" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
             <div class="flex-1">
-              <h3 class="text-2xl font-bold text-cyan-400 mb-2 space-grotesk">NextGen Financial Analytics Platform</h3>
-              <p class="text-sm text-purple-300 mb-4 inter">Client: Finnovate Inc. | Industry: Financial Services</p>
-              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">We partnered with Finnovate Inc. to build a scalable financial analytics platform that processes real-time market data. The challenge was to handle massive data streams and provide predictive insights with minimal latency.</p>
+              <h3 class="text-2xl font-bold text-primary mb-2 space-grotesk">AI-Powered Radiology Triage</h3>
+              <p class="text-sm text-secondary mb-4 inter">Client: City General Hospital | Sector: Diagnostics</p>
+              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">Developed a scalable AI solution for prioritizing radiology workflows, reducing report turnaround by 60% and improving diagnostic safety.</p>
               <div class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-medium border border-cyan-500/30 inter">Microservices</span>
-                <span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs font-medium border border-green-500/30 inter">Real-time</span>
-                <span class="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-medium border border-purple-500/30 inter">Predictive</span>
+                <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/30 inter">Microservices</span>
+                <span class="bg-secondary/20 text-secondary px-3 py-1 rounded-full text-xs font-medium border border-secondary/30 inter">Real-time</span>
+                <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-xs font-medium border border-accent/30 inter">Clinical AI</span>
               </div>
-              <h4 class="text-lg font-semibold text-yellow-400 mb-2 space-grotesk">Technologies:</h4>
-              <p class="text-xs text-gray-400 roboto-mono">Node.js, Python, PostgreSQL, AWS Lambda, React</p>
+              <h4 class="text-lg font-semibold text-accent-dark mb-2 space-grotesk">Technologies:</h4>
+              <p class="text-xs text-gray-400 roboto-mono">Python, TensorFlow, PostgreSQL, AWS HealthLake, React</p>
             </div>
           </div>
         </div>
-        <div class="card p-7 rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+        <div class="card p-7">
           <div class="flex flex-col lg:flex-row">
-            <img src="https://placehold.co/800x450/1c1c3f/ffffff?text=E-commerce+Solution+Case+Study" alt="E-commerce Solution" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
+            <img src="https://placehold.co/800x450/2563eb/ffffff?text=Telehealth+Case+Study" alt="Telehealth Solution" class="w-full lg:w-1/3 rounded-xl mb-5 lg:mb-0 lg:mr-7">
             <div class="flex-1">
-              <h3 class="text-2xl font-bold text-cyan-400 mb-2 space-grotesk">Seamless E-commerce Experience</h3>
-              <p class="text-sm text-purple-300 mb-4 inter">Client: Global Goods Co. | Industry: Retail</p>
-              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">Global Goods Co. needed a complete e-commerce platform with a focus on a personalized user experience. Our solution included a custom recommendation engine powered by machine learning.</p>
+              <h3 class="text-2xl font-bold text-secondary mb-2 space-grotesk">Personalized Telehealth Platform</h3>
+              <p class="text-sm text-primary mb-4 inter">Client: HealthFirst Clinics | Sector: Virtual Care</p>
+              <p class="text-sm text-gray-300 leading-relaxed mb-4 inter">Created a secure telehealth app supporting video consults, medication reminders, and EHR integration, tripling patient engagement.</p>
               <div class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs font-medium border border-orange-500/30 inter">Personalization</span>
-                <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-medium border border-cyan-500/30 inter">ML Integration</span>
-                <span class="bg-pink-500/20 text-pink-300 px-3 py-1 rounded-full text-xs font-medium border border-pink-500/30 inter">High Conversion</span>
+                <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary/30 inter">Personalization</span>
+                <span class="bg-secondary/20 text-secondary px-3 py-1 rounded-full text-xs font-medium border border-secondary/30 inter">Mobile Health</span>
+                <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-xs font-medium border border-accent/30 inter">HL7 FHIR</span>
               </div>
-              <h4 class="text-lg font-semibold text-yellow-400 mb-2 space-grotesk">Technologies:</h4>
-              <p class="text-xs text-gray-400 roboto-mono">Python, MongoDB, Vue.js, TensorFlow, Google Cloud</p>
+              <h4 class="text-lg font-semibold text-accent mb-2 space-grotesk">Technologies:</h4>
+              <p class="text-xs text-gray-400 roboto-mono">Kotlin, Swift, Node.js, OAuth2, Google Cloud Healthcare</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section id="podcasts" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Neuronet Podcasts</h2>
-      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Listen to our experts discuss the latest trends in technology, AI, and business innovation.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <iframe src="https://audio.com/embed/audio/1841296586059727?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
-          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">The Future of AI in Healthcare</a>
-        </div>
-        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <iframe src="https://audio.com/embed/audio/1841296581528842?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
-          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Blockchain Beyond Cryptocurrency</a>
-        </div>
-        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <iframe src="https://audio.com/embed/audio/1841296581633409?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
-          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">The Ethics of Artificial Intelligence</a>
-        </div>
-        <div class="bg-gray-900/50 p-5 rounded-2xl border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <iframe src="https://audio.com/embed/audio/1841296581801402?theme=image" style="display:block; border-radius: 4px; border: none; height: 204px; width: 100%;"></iframe>
-          <a href='https://audio.com/krish-ramoju' class="text-center block text-gray-500 text-sm mt-3 font-medium inter">Quantum Computing: Reality vs. Hype</a>
-        </div>
-      </div>
-    </section>
-    <section id="careers" class="p-10 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Careers at Neuronet</h2>
+    <section id="careers" class="p-10 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">Careers</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <h3 class="compact-title text-lg space-grotesk">AI/ML Engineer</h3>
-          <p class="compact-text inter">Mountain View, CA | CogniTech Labs<br>Design and implement machine learning models for complex problems</p>
+        <div class="compact-card card">
+          <h3 class="compact-title text-lg space-grotesk">Healthcare AI Engineer</h3>
+          <p class="compact-text inter">Toronto, ON | MediAI Labs<br>Develop ML models for clinical diagnostics and patient risk prediction.</p>
         </div>
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <h3 class="compact-title text-lg space-grotesk">Cloud DevOps Engineer</h3>
-          <p class="compact-text inter">Seattle, WA | Global Cloud Services<br>Manage cloud infrastructure and CI/CD pipelines</p>
+        <div class="compact-card card">
+          <h3 class="compact-title text-lg space-grotesk">Cloud HealthOps Engineer</h3>
+          <p class="compact-text inter">Seattle, WA | HealthCloud Services<br>Architect and manage HIPAA-compliant cloud infrastructure.</p>
         </div>
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+        <div class="compact-card card">
           <h3 class="compact-title text-lg space-grotesk">Senior Software Engineer</h3>
-          <p class="compact-text inter">San Francisco, CA | Innovatech Solutions<br>Lead development of scalable backend systems</p>
+          <p class="compact-text inter">Boston, MA | CareTech Solutions<br>Lead backend development for hospital system integrations.</p>
         </div>
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <h3 class="compact-title text-lg space-grotesk">Data Scientist</h3>
-          <p class="compact-text inter">New York, NY | Quantum Analytics<br>Analyze complex datasets to drive business decisions</p>
+        <div class="compact-card card">
+          <h3 class="compact-title text-lg space-grotesk">Data Scientist (Healthcare)</h3>
+          <p class="compact-text inter">San Francisco, CA | LifeAnalytics<br>Analyze medical datasets to drive insights and improve outcomes.</p>
         </div>
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
+        <div class="compact-card card">
           <h3 class="compact-title text-lg space-grotesk">Frontend Developer</h3>
-          <p class="compact-text inter">Remote | PixelPerfect Labs<br>Create intuitive user interfaces with modern frameworks</p>
+          <p class="compact-text inter">Remote | PatientPortal Labs<br>Build accessible patient-facing apps for web and mobile.</p>
         </div>
-        <div class="compact-card card rounded-2xl bg-gray-900/50 border border-slate-600 hover:border-cyan-500/50 transition-all duration-300">
-          <h3 class="compact-title text-lg space-grotesk">Cybersecurity Analyst</h3>
-          <p class="compact-text inter">Boston, MA | SecureNet Systems<br>Protect systems from emerging cyber threats</p>
+        <div class="compact-card card">
+          <h3 class="compact-title text-lg space-grotesk">Health Data Security Analyst</h3>
+          <p class="compact-text inter">New York, NY | SecureHealth Systems<br>Safeguard healthcare systems from emerging threats.</p>
         </div>
       </div>
     </section>
-
-    <!-- RESTORED DOCUMENTATION SECTION -->
-    <section id="documentation" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Documentation</h2>
-      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-8 inter">Access our comprehensive documentation for a deep dive into our projects and technologies.</p>
-      <div class="w-full h-[500px] overflow-hidden rounded-2xl border-2 border-gray-600">
-        <iframe src="https://docs.google.com/document/d/1kWSpGMdSp9Z9v0m_Q7PsVqJKhWO8TUdjFeGs5bwFNKU/edit?usp=sharing" class="w-full h-full border-0"></iframe>
-      </div>
-    </section>
-
     <section id="acknowledgements" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl text-center">
         <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk mx-auto">A Note of Inspiration</h2>
         <div class="max-w-4xl mx-auto space-y-6">
@@ -598,10 +793,9 @@
             </p>
         </div>
     </section>
-
-    <section id="contact" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-2xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Get in Touch</h2>
-      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">Ready to transform your business or have a question about our work? Fill out the form below and we'll get back to you as soon as possible.</p>
+    <section id="contact" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
+      <h2 class="section-header text-5xl font-bold gradient-text mb-8 text-center space-grotesk">Contact</h2>
+      <p class="text-center text-gray-400 text-lg max-w-2xl mx-auto mb-10 inter">For healthcare software inquiries, collaborations, or support, please submit your message below.</p>
       <form id="contact-form" action="https://formspree.io/f/mqadzzgl" method="POST" class="space-y-7">
         <input type="hidden" name="_subject" value="New contact form submission!">
         <input type="hidden" name="_replyto" id="reply-to-email">
@@ -618,17 +812,17 @@
           <textarea id="message" name="message" rows="5" placeholder="Your message here..." class="form-input resize-none text-base" required></textarea>
         </div>
         <div class="text-center pt-2">
-          <button type="submit" class="cta-button text-lg hover:shadow-2xl transition-all duration-300 w-full sm:w-auto montserrat">Send Message</button>
+          <button type="submit" class="cta-button text-lg montserrat w-full sm:w-auto">Send Message</button>
         </div>
       </form>
     </section>
     <footer id="footer" class="text-center py-10 text-sm text-gray-500">
-      <p class="text-base inter">&copy; 2024 Neuronet. All rights reserved.</p>
+      <p class="text-base inter">&copy; 2024 Neuronet HealthTech. All rights reserved.</p>
     </footer>
   </div>
   <div id="success-modal" class="modal">
     <div class="modal-content">
-      <h3 class="text-3xl font-bold text-cyan-400 mb-5 space-grotesk">Message Sent!</h3>
+      <h3 class="text-3xl font-bold text-primary mb-5 space-grotesk">Message Sent!</h3>
       <p class="text-gray-300 text-lg inter">Thank you for your message. We'll get back to you soon.</p>
       <button id="close-modal" class="mt-8 cta-button text-lg montserrat">Close</button>
     </div>
@@ -643,8 +837,7 @@
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      scene.fog = new THREE.Fog(0x0a0a1a, 10, 400);
-      
+      scene.fog = new THREE.Fog(0x111827, 10, 400);
       const createParticles = (particleCount, size, color) => {
         const particleGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
@@ -654,29 +847,25 @@
           positions[i + 2] = Math.random() * 1000;
         }
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particleMaterial = new THREE.PointsMaterial({ 
-          size, 
+        const particleMaterial = new THREE.PointsMaterial({
+          size,
           color: new THREE.Color(color),
-          transparent: true, 
+          transparent: true,
           opacity: 0.8,
           blending: THREE.AdditiveBlending
         });
         return new THREE.Points(particleGeometry, particleMaterial);
       };
-      
-      const fastParticles = createParticles(4000, 1.8, 0x00ffff);
-      const slowParticles = createParticles(2000, 1, 0xff00ff);
+      const fastParticles = createParticles(4000, 1.8, 0x34d399);
+      const slowParticles = createParticles(2000, 1, 0x2563eb);
       fastParticles.position.z = -100;
       slowParticles.position.z = -100;
       scene.add(fastParticles);
       scene.add(slowParticles);
-      
       camera.position.z = 5;
-      
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;
-        
         const animateParticles = (particles, baseSpeed) => {
           const particlePositions = particles.geometry.attributes.position.array;
           for (let i = 2; i < particlePositions.length; i += 3) {
@@ -687,20 +876,15 @@
           }
           particles.geometry.attributes.position.needsUpdate = true;
         };
-        
         animateParticles(fastParticles, 4);
         animateParticles(slowParticles, 1.5);
         renderer.render(scene, camera);
       }
-      
-      const handleResize = () => {
+      window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      };
-      
-      window.addEventListener('resize', handleResize);
-      
+      });
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
@@ -712,152 +896,124 @@
           }
         });
       });
-      
       const voiceIndicator = document.getElementById('voice-indicator');
       const langSelector = document.getElementById('lang-select');
       let currentLanguage = 'en';
       let voices = [];
-
       const translations = {
         'en': {
-          'hero': { title: 'Welcome to Neuronet', description: 'Connecting Minds, Building the Future. At the forefront of AI and technology, delivering cutting-edge solutions that transform industries and inspire innovation.'},
-          'about-us': { title: 'About Neuronet', description: 'At Neuronet, we are more than just a technology company; we are a hub of innovation and a collective of forward-thinking individuals specializing in AI, cloud computing, and cybersecurity.'},
-          'innovations': { title: 'Neuronet Innovations and Insights', description: 'Explore our insights on critical technology topics, from backend architecture and cybersecurity to the latest in cloud computing and DevOps.'},
-          'portfolio': { title: 'Neuronet Portfolio', description: 'A selection of our latest projects and design concepts, including NeuroVerse for vehicular autonomy and eArbor for logistics compliance.'},
-          'case-studies': { title: 'Our Case Studies', description: 'Detailed insights into how we tackle complex challenges, like building a real-time financial analytics platform and a personalized e-commerce experience.'},
-          'podcasts': { title: 'Neuronet Podcasts', description: 'Listen to our experts discuss the latest trends in technology, including the future of AI in healthcare, blockchain, and the ethics of artificial intelligence.'},
-          'careers': { title: 'Careers at Neuronet', description: 'We are a place for ambitious professionals to grow. Explore opportunities for AI engineers, cloud specialists, software developers, and more.'},
-          'documentation': { title: 'Documentation', description: 'Access our comprehensive documentation for a deep dive into our projects, frameworks, and technologies.'},
-          'acknowledgements': { title: 'A Note of Inspiration', description: 'We wish to extend our deepest gratitude to Ajith Sai, Nihith, and Imad of COSC. Their trailblazing platform, Upskillfam, with its innovative features, served as a foundational inspiration for Neuronet\'s mission to connect and innovate.' },
-          'contact': { title: 'Get in Touch', description: 'Ready to transform your business or have a question about our work? Fill out the form to connect with us.'}
+          'hero': { title: 'Welcome to Neuronet HealthTech', description: 'Transforming Healthcare with Intelligent Software. We leverage advanced software, AI, and cloud technology to empower healthcare institutions, facilitate research, and improve patient outcomes worldwide.'},
+          'about-us': { title: 'About Neuronet HealthTech', description: 'Neuronet HealthTech is a pioneer in healthcare software, combining AI, secure cloud solutions, and medical data analytics. Our vision is to accelerate innovation in diagnostics, treatment, and patient care.'},
+          'innovations': { title: 'HealthTech Innovations & Insights', description: 'Explore our insights in clinical AI, security, cloud platforms, and DevOps for healthcare.'},
+          'statistics': { title: 'Statistics: SDEs in the Medical Sector', description: 'DAV-based insights on employability, commissions, overtime, and trends for software engineers in healthcare.' },
+          'chatbot': { title: 'Skill Gap Chatbot', description: 'Describe your skills and get a custom learning path for healthcare SDEs.'},
+          'neuroverse': { title: 'Neuroverse', description: 'Featured projects, podcasts, and documentation – powering healthcare and AI innovation.'},
+          'team-neuroos': { title: 'Team NeuroOS', description: 'Meet the team and mentors behind NeuroOS.' },
+          'case-studies': { title: 'Case Studies', description: 'How Neuronet HealthTech delivers impact: real results for healthcare organizations.'},
+          'careers': { title: 'Careers', description: 'Advance your career in healthcare software. Join us as an engineer, scientist, or developer.'},
+          'acknowledgements': { title: 'A Note of Inspiration', description: 'We honor Upskillfam and its founders for inspiring our integrated approach to healthcare technology.' },
+          'contact': { title: 'Contact', description: 'For healthcare software inquiries, collaborations, or support, please submit your message below.'}
         },
         'es': {
-          'hero': { title: 'Bienvenido a Neuronet', description: 'Conectando Mentes, Construyendo el Futuro. A la vanguardia de la IA y la tecnología, ofreciendo soluciones de punta que transforman industrias e inspiran innovación.'},
-          'about-us': { title: 'Sobre Neuronet', description: 'En Neuronet, somos más que una empresa de tecnología; somos un centro de innovación y un colectivo de individuos con visión de futuro especializados en IA, computación en la nube y ciberseguridad.'},
-          'innovations': { title: 'Innovaciones y Perspectivas de Neuronet', description: 'Explore nuestras perspectivas sobre temas tecnológicos críticos, desde la arquitectura de backend y la ciberseguridad hasta lo último en computación en la nube y DevOps.'},
-          'portfolio': { title: 'Portafolio de Neuronet', description: 'Una selección de nuestros últimos proyectos y conceptos de diseño, incluyendo NeuroVerse para la autonomía vehicular y eArbor para el cumplimiento de normativas en logística.'},
-          'case-studies': { title: 'Nuestros Casos de Estudio', description: 'Información detallada sobre cómo abordamos desafíos complejos, como la construcción de una plataforma de análisis financiero en tiempo real y una experiencia de comercio electrónico personalizada.'},
-          'podcasts': { title: 'Podcasts de Neuronet', description: 'Escuche a nuestros expertos discutir las últimas tendencias en tecnología, incluyendo el futuro de la IA en la atención médica, blockchain y la ética de la inteligencia artificial.'},
-          'careers': { title: 'Carreras en Neuronet', description: 'Somos un lugar para que profesionales ambiciosos crezcan. Explore oportunidades para ingenieros de IA, especialistas en la nube, desarrolladores de software y más.'},
-          'documentation': { title: 'Documentación', description: 'Acceda a nuestra completa documentación para una inmersión profunda en nuestros proyectos, marcos de trabajo y tecnologías.'},
-          'acknowledgements': { title: 'Una Nota de Inspiración', description: 'Deseamos extender nuestra más profunda gratitud a Ajith Sai, Nihith e Imad de COSC. Su plataforma pionera, Upskillfam, con sus características innovadoras, sirvió como inspiración fundamental para la misión de Neuronet de conectar e innovar.'},
-          'contact': { title: 'Póngase en Contacto', description: '¿Listo para transformar su negocio o tiene alguna pregunta sobre nuestro trabajo? Rellene el formulario para conectarse con nosotros.'}
+          'team-neuroos': { title: 'Equipo NeuroOS', description: 'Conozca al equipo y mentores detrás de NeuroOS.' },
         },
         'fr': {
-          'hero': { title: 'Bienvenue chez Neuronet', description: 'Connecter les Esprits, Construire l\'Avenir. À la pointe de l\'IA et de la technologie, nous fournissons des solutions de pointe qui transforment les industries et inspirent l\'innovation.'},
-          'about-us': { title: 'À propos de Neuronet', description: 'Chez Neuronet, nous sommes plus qu\'une simple entreprise technologique; nous sommes un pôle d\'innovation et un collectif d\'individus avant-gardistes spécialisés en IA, cloud computing et cybersécurité.'},
-          'innovations': { title: 'Innovations et Perspectives de Neuronet', description: 'Découvrez nos perspectives sur des sujets technologiques critiques, de l\'architecture backend et la cybersécurité aux dernières nouveautés en matière de cloud computing et de DevOps.'},
-          'portfolio': { title: 'Portfolio de Neuronet', description: 'Une sélection de nos derniers projets et concepts de design, y compris NeuroVerse pour l\'autonomie des véhicules et eArbor pour la conformité logistique.'},
-          'case-studies': { title: 'Nos Études de Cas', description: 'Des informations détaillées sur la manière dont nous abordons des défis complexes, comme la création d\'une plateforme d\'analyse financière en temps réel et une expérience de commerce électronique personnalisée.'},
-          'podcasts': { title: 'Podcasts de Neuronet', description: 'Écoutez nos experts discuter des dernières tendances en technologie, y compris l\'avenir de l\'IA dans les soins de santé, la blockchain et l\'éthique de l\'intelligence artificielle.'},
-          'careers': { title: 'Carrières chez Neuronet', description: 'Nous sommes un lieu où les professionnels ambitieux peuvent s\'épanouir. Découvrez des opportunités pour les ingénieurs en IA, les spécialistes du cloud, les développeurs de logiciels, et plus encore.'},
-          'documentation': { title: 'Documentation', description: 'Accédez à notre documentation complète pour une immersion approfondie dans nos projets, nos frameworks et nos technologies.'},
-          'acknowledgements': { title: 'Une Note d\'Inspiration', description: 'Nous souhaitons exprimer notre plus profonde gratitude à Ajith Sai, Nihith et Imad de COSC. Leur plateforme pionnière, Upskillfam, avec ses fonctionnalités innovantes, a été une inspiration fondamentale pour la mission de Neuronet de connecter et d\'innover.'},
-          'contact': { title: 'Contactez-nous', description: 'Prêt à transformer votre entreprise ou vous avez une question sur notre travail? Remplissez le formulaire pour nous contacter.'}
+          'team-neuroos': { title: 'Équipe NeuroOS', description: 'Rencontrez l\'équipe et les mentors derrière NeuroOS.' },
         }
       };
-
       function populateVoices() {
         voices = window.speechSynthesis.getVoices();
       }
-
       function speakSectionInfo(sectionId) {
         if (!window.speechSynthesis) return;
-
         const content = translations[currentLanguage]?.[sectionId] || translations['en'][sectionId];
         if (!content) return;
-
         const textToSpeak = `${content.title}. ${content.description}`;
-        
         window.speechSynthesis.cancel();
         voiceIndicator.classList.add('active');
-        
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         utterance.volume = 1;
         utterance.rate = 1;
         utterance.pitch = 1;
-
         const preferredVoice = voices.find(voice => voice.lang.startsWith(currentLanguage));
         if (preferredVoice) utterance.voice = preferredVoice;
-        
         utterance.onend = () => {
           setTimeout(() => voiceIndicator.classList.remove('active'), 500);
         };
-        
         window.speechSynthesis.speak(utterance);
       }
-      
       function isInViewport(element) {
         const rect = element.getBoundingClientRect();
         const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
         return rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2;
       }
-      
       let lastSpokenSection = null;
-
       function announceCurrentSection() {
         const sections = document.querySelectorAll('section[id], header[id]');
         for (const section of sections) {
-            if (isInViewport(section)) {
-                const sectionId = section.getAttribute('id');
-                if (lastSpokenSection !== sectionId) {
-                    lastSpokenSection = sectionId;
-                    speakSectionInfo(sectionId);
-                }
-                return;
+          if (isInViewport(section)) {
+            const sectionId = section.getAttribute('id');
+            if (lastSpokenSection !== sectionId) {
+              lastSpokenSection = sectionId;
+              speakSectionInfo(sectionId);
             }
+            return;
+          }
         }
       }
-
       langSelector.addEventListener('change', (event) => {
         currentLanguage = event.target.value;
         lastSpokenSection = null;
         announceCurrentSection();
       });
-
       populateVoices();
       if (speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = populateVoices;
       }
-      
       setTimeout(announceCurrentSection, 500);
       window.addEventListener('scroll', announceCurrentSection, { passive: true });
-      
-      const form = document.getElementById('contact-form');
-      const emailInput = document.getElementById('email');
-      const replyToEmailInput = document.getElementById('reply-to-email');
-      const successModal = document.getElementById('success-modal');
-      const closeModalButton = document.getElementById('close-modal');
-      
-      emailInput.addEventListener('input', (e) => {
-        replyToEmailInput.value = e.target.value;
-      });
-      
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        try {
-          const response = await fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-          });
-          if (response.ok) {
-            form.reset();
-            successModal.classList.add('active');
-          } else {
-            alert("Oops! There was a problem submitting your form.");
-          }
-        } catch (error) {
-          alert("Oops! There was an unexpected error.");
+
+      // Simple chatbot logic
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      function addMessage(content, type) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
+        msgDiv.textContent = content;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      function basicSkillGapBot(input) {
+        input = input.toLowerCase();
+        if(input.includes('python') && input.includes('cloud')) {
+          return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
         }
+        if(input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
+          return "Strong web development background! Learning about medical data standards (FHIR), security protocols, and AI/ML for healthcare analytics will increase your employability in medical software.";
+        }
+        if(input.includes('machine learning') || input.includes('ml')) {
+          return "With ML experience, try focusing on medical imaging, clinical decision support, and cloud deployment of AI models. Consider TensorFlow, PyTorch, and privacy techniques for healthcare.";
+        }
+        if(input.includes('mobile')) {
+          return "Mobile development is key for telehealth. Learn about healthcare-specific APIs, interoperability standards, and patient UX best practices.";
+        }
+        if(input.includes('beginner') || input.includes('no experience')) {
+          return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
+        }
+        // Default
+        return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
+      }
+      chatForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const userMsg = chatInput.value.trim();
+        if(!userMsg) return;
+        addMessage(userMsg, 'user');
+        setTimeout(() => {
+          addMessage(basicSkillGapBot(userMsg), 'bot');
+        }, 500);
+        chatInput.value = '';
       });
-      
-      closeModalButton.addEventListener('click', () => successModal.classList.remove('active'));
-      window.addEventListener('click', (e) => {
-        if (e.target === successModal) successModal.classList.remove('active');
-      });
-      
       animate();
     });
   </script>

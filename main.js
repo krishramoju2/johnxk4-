@@ -86,6 +86,8 @@ async function initializeApp() {
     await loadSection('innovations', '#content');
     await loadSection('statistics', '#content');
     await loadSection('chatbot', '#content');
+    await loadSection('neuroverse', '#content');
+
     
     // Once all sections are loaded, safely initialize the chatbot
     const chatMessages = document.getElementById('chat-messages');

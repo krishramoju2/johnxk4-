@@ -1,4 +1,3 @@
-  <style>
     :root {
       --primary: #34d399;
       --primary-dark: #059669;
@@ -433,4 +432,4 @@
       color: var(--accent-dark);
       font-weight: bold;
     }
-  </style>
+

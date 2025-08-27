@@ -1,4 +1,4 @@
-
+e
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('background-canvas');
       const scene = new THREE.Scene();
@@ -31,6 +31,8 @@
       scene.add(fastParticles);
       scene.add(slowParticles);
       camera.position.z = 5;
+      
+      loadSection('about-us', '#content-container');
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

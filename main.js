@@ -48,6 +48,7 @@
       loadSection('about-us', '#content');
       loadSection('innovations', '#content');
       loadSection('statistics', '#content');
+      loadSection('chatbot', '#content');
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

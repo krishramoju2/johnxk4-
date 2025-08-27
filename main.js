@@ -46,6 +46,8 @@
           }
       }
       loadSection('about-us', '#content');
+      loadSection('innovations', '#content');
+
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

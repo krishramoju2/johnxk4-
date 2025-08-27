@@ -47,7 +47,7 @@
       }
       loadSection('about-us', '#content');
       loadSection('innovations', '#content');
-
+      loadSection('stats', '#content');
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

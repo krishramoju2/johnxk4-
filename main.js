@@ -93,39 +93,7 @@ async function initializeApp() {
     await loadSection('acknowledgements', '#content');
     await loadSection('contact', '#content');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
       
 // Once all sections are loaded, safely initialize the chatbot
  const chatMessages = document.getElementById('chat-messages');
@@ -203,6 +171,38 @@ async function initializeApp() {
 } catch (err) {
  console.error("Failed to load sections and initialize the app:", err);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

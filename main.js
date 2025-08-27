@@ -92,54 +92,83 @@ async function initializeApp() {
     await loadSection('careers', '#content');
     await loadSection('acknowledgements', '#content');
     await loadSection('contact', '#content');
-    
-    // Once all sections are loaded, safely initialize the chatbot
-    const chatMessages = document.getElementById('chat-messages');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    
-    function addMessage(content, type) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
-      msgDiv.textContent = content;
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-    
-    function basicSkillGapBot(input) {
-      input = input.toLowerCase();
-      if(input.includes('python') && input.includes('cloud')) {
-        return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
-      }
-      if(input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
-        return "Strong web development background! Learning about medical data standards (FHIR), security protocols, and AI/ML for healthcare analytics will increase your employability in medical software.";
-      }
-      if(input.includes('machine learning') || input.includes('ml')) {
-        return "With ML experience, try focusing on medical imaging, clinical decision support, and cloud deployment of AI models. Consider TensorFlow, PyTorch, and privacy techniques for healthcare.";
-      }
-      if(input.includes('mobile')) {
-        return "Mobile development is key for telehealth. Learn about healthcare-specific APIs, interoperability standards, and patient UX best practices.";
-      }
-      if(input.includes('beginner') || input.includes('no experience')) {
-        return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
-      }
-      return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
-    }
-    
-    chatForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      const userMsg = chatInput.value.trim();
-      if(!userMsg) return;
-      addMessage(userMsg, 'user');
-      setTimeout(() => {
-        addMessage(basicSkillGapBot(userMsg), 'bot');
-      }, 500);
-      chatInput.value = '';
-    });
-    
-  } catch (err) {
-    console.error("Failed to load sections and initialize the app:", err);
-  }
+
+
+// Once all sections are loaded, safely initialize the chatbot
+ const chatMessages = document.getElementById('chat-messages');
+ const chatForm = document.getElementById('chat-form');
+ const chatInput = document.getElementById('chat-input');
+
+ function addMessage(content, type) {
+   const msgDiv = document.createElement('div');
+   msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
+   msgDiv.textContent = content;
+   chatMessages.appendChild(msgDiv);
+   chatMessages.scrollTop = chatMessages.scrollHeight;
+ }
+
+ function basicSkillGapBot(input) {
+   input = input.toLowerCase();
+
+   // Core Skill Combos
+   if (input.includes('python') && input.includes('cloud')) {
+     return "Python and cloud skills are a powerful combo. To specialize in healthcare, you should focus on: 1. **HL7/FHIR Integration**: Learn to parse and create FHIR resources using libraries like `fhirclient` or `py-fhir`. 2. **Cloud Healthcare APIs**: Get hands-on with services like Google Cloud Healthcare API or AWS HealthLake for ingesting and managing healthcare data. 3. **Data Security**: Implement robust authentication and authorization, and understand HIPAA-compliant data handling in the cloud.";
+   }
+   if (input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
+     return "A strong web development background is a great starting point. To pivot to healthcare, focus on: 1. **FHIR & SMART on FHIR**: Build a front-end application that can query and display data from a FHIR server securely. 2. **User Experience (UX)**: Design intuitive interfaces for clinicians and patients, ensuring accessibility and ease of use. 3. **Telehealth**: Explore real-time communication technologies like WebRTC for video calls, and integrate with remote patient monitoring devices.";
+   }
+   if (input.includes('machine learning') || input.includes('ml')) {
+     return "Your ML experience is highly valuable. To apply it in healthcare, you need to: 1. **Data Preprocessing**: Master handling complex medical datasets, including unstructured text from clinical notes and image data (DICOM). 2. **Model Interpretation**: Learn techniques for model explainability (XAI) to build trust with medical professionals. 3. **Clinical Applications**: Focus on specific domains like medical imaging analysis (e.g., tumor detection), disease risk prediction, or clinical decision support systems.";
+   }
+
+   // Advanced/Specific Queries
+   if (input.includes('dicom') || input.includes('medical imaging')) {
+     return "To work with medical images, you need to master the DICOM standard. Use Python libraries like `pydicom` to read, write, and manipulate DICOM files. Explore deep learning frameworks like MONAI for medical-specific models, and learn about image segmentation, classification, and registration techniques.";
+   }
+   if (input.includes('nlp') || input.includes('natural language processing')) {
+     return "NLP is key for unlocking insights from clinical notes. Focus on: 1. **Named Entity Recognition (NER)**: Extracting medical terms like diseases, medications, and procedures. 2. **De-identification**: Building models to automatically remove Protected Health Information (PHI) from text. 3. **Clinical Text Summarization**: Creating concise summaries of long patient records.";
+   }
+   if (input.includes('iot') || input.includes('wearables')) {
+     return "Internet of Things (IoT) in healthcare is all about remote monitoring. You should focus on: 1. **Device Integration**: Connecting to health wearables and medical devices via Bluetooth or other protocols. 2. **Real-time Data Processing**: Designing systems to ingest and analyze streaming data from these devices. 3. **Interoperability**: Ensuring data from different devices can be aggregated and shared via standards like FHIR.";
+   }
+   if (input.includes('blockchain') || input.includes('decentralized')) {
+     return "Blockchain offers a new way to manage secure health records. Learn about: 1. **Smart Contracts**: Building logic for patient consent management and data access. 2. **Interoperability**: Creating decentralized identity solutions for patients and providers. 3. **Security & Privacy**: Understanding how to design systems that maintain patient anonymity while allowing for data verification.";
+   }
+   if (input.includes('cybersecurity') || input.includes('hipaa')) {
+     return "Cybersecurity is non-negotiable in healthcare. Your learning path should include: 1. **Risk Assessment**: Identifying vulnerabilities in healthcare systems. 2. **HIPAA/GDPR Compliance**: Implementing and documenting technical safeguards. 3. **Secure Coding**: Writing code that prevents common vulnerabilities like SQL injection and cross-site scripting.";
+   }
+   if (input.includes('big data') || input.includes('spark') || input.includes('kafka')) {
+     return "Handling large-scale healthcare data requires expertise in Big Data technologies. Master distributed processing with Apache Spark for analytics and real-time data streaming with Apache Kafka for applications like remote patient monitoring and clinical alerts.";
+   }
+   if (input.includes('telehealth') || input.includes('video call')) {
+     return "For telehealth, focus on secure, real-time communication. You should learn about: 1. **WebRTC**: The standard for browser-based video calls. 2. **Secure Communication**: Ensuring end-to-end encryption for all video and chat data. 3. **UX**: Designing a smooth and reliable user experience for both patients and clinicians.";
+   }
+
+   // Experience-level based queries
+   if (input.includes('beginner') || input.includes('no experience')) {
+     return "Start with the fundamentals. Pick a programming language like Python or JavaScript. Then, learn about basic data structures, algorithms, and version control (Git). Once you have a strong foundation, start exploring healthcare-specific topics like HL7 and FHIR with introductory online courses.";
+   }
+   if (input.includes('experienced') && input.includes('software engineer')) {
+     return "As an experienced SE, you can quickly bridge the gap. Focus on: 1. **Healthcare Standards**: A deep dive into FHIR, HL7, and DICOM. 2. **Domain Knowledge**: Read up on clinical workflows, regulatory requirements (HIPAA, FDA), and common challenges in healthcare IT. 3. **Specialization**: Pick a niche, like AI in diagnostics, telehealth, or interoperability, and build a project to showcase your expertise.";
+   }
+
+   // Default/General responses
+   return "I'm designed to help you find your learning path in healthcare software. Please list your current skills (e.g., Python, web, mobile, ML) or a specific area of interest (e.g., telehealth, medical imaging) so I can give you a tailored recommendation!";
+ }
+
+ chatForm.addEventListener('submit', function(e){
+   e.preventDefault();
+   const userMsg = chatInput.value.trim();
+   if(!userMsg) return;
+   addMessage(userMsg, 'user');
+   setTimeout(() => {
+     addMessage(basicSkillGapBot(userMsg), 'bot');
+   }, 500);
+   chatInput.value = '';
+ });
+
+} catch (err) {
+ console.error("Failed to load sections and initialize the app:", err);
 }
 
 // Start the application

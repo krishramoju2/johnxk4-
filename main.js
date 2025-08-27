@@ -1,4 +1,4 @@
-e
+
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('background-canvas');
       const scene = new THREE.Scene();
@@ -31,7 +31,20 @@ e
       scene.add(fastParticles);
       scene.add(slowParticles);
       camera.position.z = 5;
-      
+          // Function to load a section into a target element
+      async function loadSection(file, targetSelector) {
+          try {
+            const response = await fetch(`sections/${file}.html`);
+            if (response.ok) {
+              const html = await response.text();
+              document.querySelector(targetSelector).insertAdjacentHTML('beforeend', html);
+            } else {
+              console.error(`Failed to load ${file}.html:`, response.status);
+            }
+          } catch (err) {
+            console.error(`Error loading ${file}:`, err);
+          }
+      }
       loadSection('about-us', '#content-container');
       function animate() {
         requestAnimationFrame(animate);
@@ -184,20 +197,7 @@ e
         }, 500);
         chatInput.value = '';
       });
-    // Function to load a section into a target element
-    async function loadSection(file, targetSelector) {
-      try {
-        const response = await fetch(`sections/${file}.html`);
-        if (response.ok) {
-          const html = await response.text();
-          document.querySelector(targetSelector).insertAdjacentHTML('beforeend', html);
-        } else {
-          console.error(`Failed to load ${file}.html:`, response.status);
-        }
-      } catch (err) {
-        console.error(`Error loading ${file}:`, err);
-      }
-    }
+
       animate();
     });
 

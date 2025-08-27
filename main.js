@@ -87,6 +87,7 @@ async function initializeApp() {
     await loadSection('statistics', '#content');
     await loadSection('chatbot', '#content');
     await loadSection('neuroverse', '#content');
+    await loadSection('team-neuroos', '#content');
 
     
     // Once all sections are loaded, safely initialize the chatbot

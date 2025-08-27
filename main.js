@@ -31,20 +31,40 @@
       scene.add(fastParticles);
       scene.add(slowParticles);
       camera.position.z = 5;
-          // Function to load a section into a target element
-      async function loadSection(file, targetSelector) {
+                  // Function to load a section into a target element
+        /**
+         * Asynchronously loads an HTML section from a file and inserts it into the DOM.
+         * @param {string} file The name of the HTML file (e.g., 'about-us').
+         * @param {string} targetSelector A CSS selector for the target container (e.g., '#content-container').
+         * @returns {Promise<void>} A promise that resolves when the section is loaded, or rejects on error.
+         */
+        async function loadSection(file, targetSelector) {
           try {
             const response = await fetch(`sections/${file}.html`);
-            if (response.ok) {
-              const html = await response.text();
-              document.querySelector(targetSelector).insertAdjacentHTML('beforeend', html);
+            if (!response.ok) {
+              const errorMsg = `Failed to load ${file}.html: ${response.status}`;
+              console.error(errorMsg);
+              // Reject the promise on a non-2xx HTTP status
+              return Promise.reject(new Error(errorMsg));
+            }
+            const html = await response.text();
+            const targetElement = document.querySelector(targetSelector);
+            if (targetElement) {
+              targetElement.insertAdjacentHTML('beforeend', html);
+              // Resolve the promise on successful insertion
+              return Promise.resolve();
             } else {
-              console.error(`Failed to load ${file}.html:`, response.status);
+              const errorMsg = `Target element not found: ${targetSelector}`;
+              console.error(errorMsg);
+              // Reject if the target element doesn't exist
+              return Promise.reject(new Error(errorMsg));
             }
           } catch (err) {
             console.error(`Error loading ${file}:`, err);
+            // Reject the promise on a network or other error
+            return Promise.reject(err);
           }
-      }
+        }
       loadSection('about-us', '#content');
       loadSection('innovations', '#content');
       loadSection('statistics', '#content');

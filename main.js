@@ -1,4 +1,4 @@
- <script>
+
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('background-canvas');
       const scene = new THREE.Scene();
@@ -184,4 +184,4 @@
       });
       animate();
     });
-  </script>
+

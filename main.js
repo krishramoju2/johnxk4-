@@ -31,7 +31,20 @@
       scene.add(fastParticles);
       scene.add(slowParticles);
       camera.position.z = 5;
-      // Function to load a section into a target element
+
+
+
+
+
+
+
+
+
+
+
+
+        
+// Function to load a section into a target element
 /**
  * Asynchronously loads an HTML section from a file and inserts it into the DOM.
  * @param {string} file The name of the HTML file (e.g., 'about-us').
@@ -45,14 +58,13 @@ async function loadSection(file, targetSelector) {
       const errorMsg = `Failed to load ${file}.html: ${response.status}`;
       console.error(errorMsg);
       // Throw an error to be caught by the outer catch block or a .catch() handler
-      throw new Error(errorMsg); 
+      throw new Error(errorMsg);
     }
     const html = await response.text();
     const targetElement = document.querySelector(targetSelector);
     if (targetElement) {
-      // Corrected to use replaceChildren() for a Single Page Application (SPA) feel
-      targetElement.innerHTML = html; 
-      // This is a common pattern for SPAs, but if you want to append use `insertAdjacentHTML`
+      // Corrected to use insertAdjacentHTML to append content
+      targetElement.insertAdjacentHTML('beforeend', html);
     } else {
       const errorMsg = `Target element not found: ${targetSelector}`;
       console.error(errorMsg);
@@ -66,51 +78,83 @@ async function loadSection(file, targetSelector) {
   }
 }
 
-// Corrected function calls with error handling
-// Use Promise.all to load all sections and ensure the script doesn't halt
-// You may also want to use a more sequential approach if the order matters
-Promise.all([
-    loadSection('about-us', '#content'),
-    loadSection('innovations', '#content'),
-    loadSection('statistics', '#content'),
-    loadSection('chatbot', '#content')
-]).then(() => {
-    // This code will only run after all sections have loaded successfully
-    // This ensures the chatbot event listener is registered only after its HTML exists
+// Use an async function to manage sequential loading
+async function initializeApp() {
+  try {
+    // Load sections sequentially to ensure correct order in the DOM
+    await loadSection('about-us', '#content');
+    await loadSection('innovations', '#content');
+    await loadSection('statistics', '#content');
+    await loadSection('chatbot', '#content');
+    
+    // Once all sections are loaded, safely initialize the chatbot
     const chatMessages = document.getElementById('chat-messages');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
+    
     function addMessage(content, type) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
-        msgDiv.textContent = content;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+      const msgDiv = document.createElement('div');
+      msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
+      msgDiv.textContent = content;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+    
     function basicSkillGapBot(input) {
-        input = input.toLowerCase();
-        if(input.includes('python') && input.includes('cloud')) {
-            return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
-        }
-        // ... (rest of your chatbot logic)
-        if(input.includes('beginner') || input.includes('no experience')) {
-            return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
-        }
-        return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
+      input = input.toLowerCase();
+      if(input.includes('python') && input.includes('cloud')) {
+        return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
+      }
+      if(input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
+        return "Strong web development background! Learning about medical data standards (FHIR), security protocols, and AI/ML for healthcare analytics will increase your employability in medical software.";
+      }
+      if(input.includes('machine learning') || input.includes('ml')) {
+        return "With ML experience, try focusing on medical imaging, clinical decision support, and cloud deployment of AI models. Consider TensorFlow, PyTorch, and privacy techniques for healthcare.";
+      }
+      if(input.includes('mobile')) {
+        return "Mobile development is key for telehealth. Learn about healthcare-specific APIs, interoperability standards, and patient UX best practices.";
+      }
+      if(input.includes('beginner') || input.includes('no experience')) {
+        return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
+      }
+      return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
     }
+    
     chatForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        const userMsg = chatInput.value.trim();
-        if(!userMsg) return;
-        addMessage(userMsg, 'user');
-        setTimeout(() => {
-            addMessage(basicSkillGapBot(userMsg), 'bot');
-        }, 500);
-        chatInput.value = '';
+      e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if(!userMsg) return;
+      addMessage(userMsg, 'user');
+      setTimeout(() => {
+        addMessage(basicSkillGapBot(userMsg), 'bot');
+      }, 500);
+      chatInput.value = '';
     });
-}).catch(err => {
-    console.error("One or more sections failed to load:", err);
-});
+    
+  } catch (err) {
+    console.error("Failed to load sections and initialize the app:", err);
+  }
+}
+
+// Start the application
+initializeApp();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

@@ -90,6 +90,7 @@ async function initializeApp() {
     await loadSection('team-neuroos', '#content');
     await loadSection('case-studies', '#content');
     await loadSection('careers', '#content');
+    await loadSection('acknowledgements', '#content');
     
     // Once all sections are loaded, safely initialize the chatbot
     const chatMessages = document.getElementById('chat-messages');

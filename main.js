@@ -65,6 +65,47 @@
             return Promise.reject(err);
           }
         }
+          // Simple chatbot logic
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      function addMessage(content, type) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
+        msgDiv.textContent = content;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      function basicSkillGapBot(input) {
+        input = input.toLowerCase();
+        if(input.includes('python') && input.includes('cloud')) {
+          return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
+        }
+        if(input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
+          return "Strong web development background! Learning about medical data standards (FHIR), security protocols, and AI/ML for healthcare analytics will increase your employability in medical software.";
+        }
+        if(input.includes('machine learning') || input.includes('ml')) {
+          return "With ML experience, try focusing on medical imaging, clinical decision support, and cloud deployment of AI models. Consider TensorFlow, PyTorch, and privacy techniques for healthcare.";
+        }
+        if(input.includes('mobile')) {
+          return "Mobile development is key for telehealth. Learn about healthcare-specific APIs, interoperability standards, and patient UX best practices.";
+        }
+        if(input.includes('beginner') || input.includes('no experience')) {
+          return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
+        }
+        // Default
+        return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
+      }
+      chatForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const userMsg = chatInput.value.trim();
+        if(!userMsg) return;
+        addMessage(userMsg, 'user');
+        setTimeout(() => {
+          addMessage(basicSkillGapBot(userMsg), 'bot');
+        }, 500);
+        chatInput.value = '';
+      });
       loadSection('about-us', '#content');
       loadSection('innovations', '#content');
       loadSection('statistics', '#content');
@@ -179,47 +220,7 @@
       setTimeout(announceCurrentSection, 500);
       window.addEventListener('scroll', announceCurrentSection, { passive: true });
 
-      // Simple chatbot logic
-      const chatMessages = document.getElementById('chat-messages');
-      const chatForm = document.getElementById('chat-form');
-      const chatInput = document.getElementById('chat-input');
-      function addMessage(content, type) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = type === 'user' ? 'chat-message-user' : 'chat-message-bot';
-        msgDiv.textContent = content;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-      function basicSkillGapBot(input) {
-        input = input.toLowerCase();
-        if(input.includes('python') && input.includes('cloud')) {
-          return "You have great Python and cloud skills! Consider exploring HL7/FHIR integration, regulatory compliance (HIPAA), and mobile health app development to enhance your healthcare SDE profile.";
-        }
-        if(input.includes('javascript') || input.includes('react') || input.includes('angular') || input.includes('vue')) {
-          return "Strong web development background! Learning about medical data standards (FHIR), security protocols, and AI/ML for healthcare analytics will increase your employability in medical software.";
-        }
-        if(input.includes('machine learning') || input.includes('ml')) {
-          return "With ML experience, try focusing on medical imaging, clinical decision support, and cloud deployment of AI models. Consider TensorFlow, PyTorch, and privacy techniques for healthcare.";
-        }
-        if(input.includes('mobile')) {
-          return "Mobile development is key for telehealth. Learn about healthcare-specific APIs, interoperability standards, and patient UX best practices.";
-        }
-        if(input.includes('beginner') || input.includes('no experience')) {
-          return "Start with Python or JavaScript basics, then move into healthcare data standards (HL7, FHIR) and cloud platforms. Upskilling with online courses and small projects in medical data analytics is recommended.";
-        }
-        // Default
-        return "To get a custom learning path, please list your skills (e.g., Python, ML, cloud, web, mobile) and your experience level. I’ll recommend the best next steps for the healthcare software sector!";
-      }
-      chatForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        const userMsg = chatInput.value.trim();
-        if(!userMsg) return;
-        addMessage(userMsg, 'user');
-        setTimeout(() => {
-          addMessage(basicSkillGapBot(userMsg), 'bot');
-        }, 500);
-        chatInput.value = '';
-      });
+
 
       animate();
     });

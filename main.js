@@ -45,7 +45,7 @@
             console.error(`Error loading ${file}:`, err);
           }
       }
-      loadSection('about-us', '#content-container');
+      loadSection('about-us', '#content');
       function animate() {
         requestAnimationFrame(animate);
         const scrollY = window.scrollY;

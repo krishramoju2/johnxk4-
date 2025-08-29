@@ -353,9 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-   // ✅ Use the one already in HTML
-    const overlay = document.getElementById('career-overlay');
-
+   
     
     // Career data
     const careerData = [

@@ -352,11 +352,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Create overlay element since it's not in your HTML
-    const overlay = document.createElement('div');
-    overlay.id = 'career-overlay';
-    overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 hidden';
-    document.body.appendChild(overlay);
+   // ✅ Use the one already in HTML
+    const overlay = document.getElementById('career-overlay');
+
     
     // Career data
     const careerData = [

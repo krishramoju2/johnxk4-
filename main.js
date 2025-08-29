@@ -346,7 +346,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    const careersContainer = document.querySelector('#careers .grid');
+    const careersContainer = document.getElementById('careers-container');
+
     if (!careersContainer) {
         console.error('Careers container not found!');
         return;

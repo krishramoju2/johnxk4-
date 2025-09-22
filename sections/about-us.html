@@ -1,31 +1,66 @@
 <section id="about-us" class="p-10 mt-14 mb-14 rounded-3xl frosted-glass neon-border shadow-xl">
-      <h2 class="section-header text-5xl font-bold gradient-text mb-10 space-grotesk">About Neuronet HealthTech</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div class="space-y-6">
-          <p class="text-lg text-gray-200 leading-relaxed inter">Neuronet HealthTech is a pioneer in healthcare software, combining AI, secure cloud solutions, and medical data analytics. Our vision is to accelerate innovation in diagnostics, treatment, and patient care.</p>
-          <p class="text-lg text-gray-200 leading-relaxed inter">We build platforms for clinical decision support, predictive health analytics, and digital transformation—enabling hospitals and clinics to provide better, safer, and more accessible care.</p>
-          <p class="text-lg text-gray-200 leading-relaxed inter">Our engineers and data scientists are passionate about solving real-world medical challenges, from secure EHR integration to mobile telehealth experiences and compliance automation for global standards.</p>
+  <!-- Section Header with sparkling gradient effect -->
+  <h2 class="section-header text-5xl font-bold gradient-text animate-sparkle mb-10 space-grotesk">
+    About Neuronet HealthTech
+  </h2>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <!-- Left Column: Content -->
+    <div class="space-y-6">
+      <p class="text-lg text-gray-200 leading-relaxed inter">
+        Neuronet HealthTech is a pioneer in AI-driven healthcare software. Our proprietary algorithms, specialized neural networks, and adaptive machine learning pipelines allow us to provide predictive insights that are more accurate and faster than standard solutions.
+      </p>
+      <p class="text-lg text-gray-200 leading-relaxed inter">
+        Unlike conventional healthcare platforms, we integrate multi-modal data—genomics, imaging, EHR, and wearable sensor data—into a unified AI model, enabling hyper-personalized treatment plans and early disease detection.
+      </p>
+      <p class="text-lg text-gray-200 leading-relaxed inter">
+        Our team of AI researchers, clinicians, and engineers constantly innovates with specialized models, such as federated learning for secure patient data collaboration, reinforcement learning for treatment optimization, and transformer-based diagnostics for complex medical imaging.
+      </p>
+    </div>
+
+    <!-- Right Column: Technologies -->
+    <div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <h4 class="space-grotesk animate-sparkle">AI in Medicine</h4>
+          <p class="roboto-mono">
+            TensorFlow, PyTorch, Keras, Scikit-learn, HuggingFace Transformers, Federated Learning, Reinforcement Learning
+          </p>
         </div>
-        <div>
-          <div class="tech-grid">
-            <div class="tech-item">
-              <h4 class="space-grotesk">AI in Medicine</h4>
-              <p class="roboto-mono">TensorFlow, PyTorch, Keras, Scikit-learn, HuggingFace Transformers</p>
-            </div>
-            <div class="tech-item">
-              <h4 class="space-grotesk">Cloud Health</h4>
-              <p class="roboto-mono">AWS HealthLake, GCP Healthcare, Azure Health Data, Docker, Kubernetes</p>
-            </div>
-            <div class="tech-item">
-              <h4 class="space-grotesk">Web & Security</h4>
-              <p class="roboto-mono">React, Vue, Angular, Node.js, Django, HL7 FHIR, OAuth2</p>
-            </div>
-            <div class="tech-item">
-              <h4 class="space-grotesk">Mobile Health</h4>
-              <p class="roboto-mono">React Native, Flutter, Swift, Kotlin, Wear OS Health</p>
-            </div>
-          </div>
-          <p class="text-sm text-gray-400 mt-6 leading-relaxed inter">We nurture medical innovators, clinicians, and IT professionals—offering career paths and resources to make a lasting impact on healthcare.</p>
+        <div class="tech-item">
+          <h4 class="space-grotesk animate-sparkle">Cloud Health</h4>
+          <p class="roboto-mono">
+            AWS HealthLake, GCP Healthcare, Azure Health Data, Docker, Kubernetes, HIPAA & GDPR Compliance
+          </p>
+        </div>
+        <div class="tech-item">
+          <h4 class="space-grotesk animate-sparkle">Web & Security</h4>
+          <p class="roboto-mono">
+            React, Vue, Angular, Node.js, Django, HL7 FHIR, OAuth2, Advanced Encryption, Real-time Data Security
+          </p>
+        </div>
+        <div class="tech-item">
+          <h4 class="space-grotesk animate-sparkle">Mobile Health</h4>
+          <p class="roboto-mono">
+            React Native, Flutter, Swift, Kotlin, Wear OS Health, AI-assisted Telehealth, Predictive Monitoring
+          </p>
         </div>
       </div>
+      <p class="text-sm text-gray-400 mt-6 leading-relaxed inter">
+        We cultivate medical innovators, clinicians, and IT professionals—offering specialized AI training, advanced research opportunities, and collaborative projects that redefine the standard of patient care and healthcare technology.
+      </p>
+    </div>
+  </div>
 </section>
+
+<!-- Sparkling Text Animation CSS -->
+<style>
+@keyframes sparkle {
+  0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #ff69b4, 0 0 15px #ff1493; }
+  50% { text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4, 0 0 30px #ff1493; }
+}
+
+.animate-sparkle {
+  animation: sparkle 2s infinite alternate;
+}
+</style>
